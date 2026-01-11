@@ -32,9 +32,7 @@ export async function createProvider(config: Config): Promise<Provider> {
 
   if (!factory) {
     const available = Object.keys(providerFactories).join(", ");
-    throw new Error(
-      `Unknown provider: "${providerType}". Available providers: ${available}`
-    );
+    throw new Error(`Unknown provider: "${providerType}". Available providers: ${available}`);
   }
 
   return factory(config);

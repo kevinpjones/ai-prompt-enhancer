@@ -48,11 +48,7 @@ describe("enhancer.ts", () => {
 
   describe("enhancePrompt", () => {
     it("should return enhanced result on success", async () => {
-      const result = await enhancePrompt(
-        "original text",
-        "/workspace",
-        defaultConfig
-      );
+      const result = await enhancePrompt("original text", "/workspace", defaultConfig);
 
       expect(result.success).toBe(true);
       expect(result.text).toBe("enhanced text");
@@ -106,9 +102,7 @@ describe("enhancer.ts", () => {
     });
 
     it("should return original text on provider creation error", async () => {
-      mocks.createProvider.mockRejectedValueOnce(
-        new Error("Unknown provider")
-      );
+      mocks.createProvider.mockRejectedValueOnce(new Error("Unknown provider"));
 
       const result = await enhancePrompt("original", "/workspace", defaultConfig);
 

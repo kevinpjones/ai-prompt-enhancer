@@ -15,11 +15,11 @@ A command-line tool that enhances AI prompts using multiple providers. Designed 
 
 The enhancer supports three providers:
 
-| Provider | ID | Authentication | Best For |
-|----------|-----|----------------|----------|
-| **Auggie** | `auggie` | Augment Code account | Full workspace indexing, IDE-like context |
+| Provider            | ID           | Authentication                | Best For                                            |
+| ------------------- | ------------ | ----------------------------- | --------------------------------------------------- |
+| **Auggie**          | `auggie`     | Augment Code account          | Full workspace indexing, IDE-like context           |
 | **Claude Code CLI** | `claude-cli` | Claude Code auth (no API key) | Quick setup, uses existing Claude Code installation |
-| **Claude API** | `claude-api` | Anthropic API key | Direct API access, full control |
+| **Claude API**      | `claude-api` | Anthropic API key             | Direct API access, full control                     |
 
 ## Installation
 
@@ -35,6 +35,7 @@ The enhancer supports three providers:
 ### Setup
 
 1. **Clone and build:**
+
    ```bash
    git clone <repository-url>
    cd vim-prompt-enhancer
@@ -43,6 +44,7 @@ The enhancer supports three providers:
    ```
 
 2. **Create configuration file:**
+
    ```bash
    cp example.prompt-enhancer.json ~/.prompt-enhancer.json
    ```
@@ -61,6 +63,7 @@ The enhancer uses a configuration file at `~/.prompt-enhancer.json`. Environment
 Add the `provider` field to your config to choose your provider:
 
 #### Auggie Provider (Default)
+
 ```json
 {
   "provider": "auggie",
@@ -72,6 +75,7 @@ Add the `provider` field to your config to choose your provider:
 ```
 
 #### Claude Code CLI Provider (Recommended for Claude Users)
+
 ```json
 {
   "provider": "claude-cli",
@@ -83,6 +87,7 @@ Add the `provider` field to your config to choose your provider:
 No API key required! Uses your existing Claude Code authentication.
 
 #### Claude API Provider
+
 ```json
 {
   "provider": "claude-api",
@@ -92,6 +97,7 @@ No API key required! Uses your existing Claude Code authentication.
 ```
 
 Set your API key via environment variable:
+
 ```bash
 export ANTHROPIC_API_KEY="your-api-key"
 ```
@@ -111,54 +117,54 @@ Existing configurations without a `provider` field continue to work and default 
 
 #### Common Options (All Providers)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `provider` | string | `"auggie"` | Provider to use: `auggie`, `claude-cli`, `claude-api` |
-| `wrapperPrompt` | string | *(see below)* | Template for enhancing prompts. Must contain `{input}` placeholder |
-| `showStderr` | boolean | `false` | Show stderr output instead of filtering SDK/MCP warnings |
+| Option          | Type    | Default       | Description                                                        |
+| --------------- | ------- | ------------- | ------------------------------------------------------------------ |
+| `provider`      | string  | `"auggie"`    | Provider to use: `auggie`, `claude-cli`, `claude-api`              |
+| `wrapperPrompt` | string  | _(see below)_ | Template for enhancing prompts. Must contain `{input}` placeholder |
+| `showStderr`    | boolean | `false`       | Show stderr output instead of filtering SDK/MCP warnings           |
 
 #### Auggie Provider Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `model` | string | `"sonnet4.5"` | AI model: `haiku4.5`, `sonnet4.5`, `sonnet4`, `gpt5` |
-| `auggiePath` | string | `"auggie"` | Path to the Auggie executable |
-| `rules` | string[] | `[]` | Paths to rule files to pass to Auggie |
-| `cliArgs` | string[] | `[]` | Additional CLI arguments for Auggie |
+| Option       | Type     | Default       | Description                                          |
+| ------------ | -------- | ------------- | ---------------------------------------------------- |
+| `model`      | string   | `"sonnet4.5"` | AI model: `haiku4.5`, `sonnet4.5`, `sonnet4`, `gpt5` |
+| `auggiePath` | string   | `"auggie"`    | Path to the Auggie executable                        |
+| `rules`      | string[] | `[]`          | Paths to rule files to pass to Auggie                |
+| `cliArgs`    | string[] | `[]`          | Additional CLI arguments for Auggie                  |
 
 #### Claude CLI Provider Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `claudePath` | string | `"claude"` | Path to the Claude CLI executable |
-| `model` | string | *(default)* | Optional model override |
-| `cliArgs` | string[] | `[]` | Additional CLI arguments for Claude |
+| Option       | Type     | Default     | Description                         |
+| ------------ | -------- | ----------- | ----------------------------------- |
+| `claudePath` | string   | `"claude"`  | Path to the Claude CLI executable   |
+| `model`      | string   | _(default)_ | Optional model override             |
+| `cliArgs`    | string[] | `[]`        | Additional CLI arguments for Claude |
 
 #### Claude API Provider Options
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `model` | string | `"claude-sonnet-4-20250514"` | Claude model to use |
-| `apiKey` | string | *(env var)* | API key (or use `ANTHROPIC_API_KEY` env var) |
-| `maxTokens` | number | `4096` | Maximum tokens for response |
+| Option      | Type   | Default                      | Description                                  |
+| ----------- | ------ | ---------------------------- | -------------------------------------------- |
+| `model`     | string | `"claude-sonnet-4-20250514"` | Claude model to use                          |
+| `apiKey`    | string | _(env var)_                  | API key (or use `ANTHROPIC_API_KEY` env var) |
+| `maxTokens` | number | `4096`                       | Maximum tokens for response                  |
 
 ### Environment Variables
 
 Environment variables take precedence over the config file:
 
-| Variable | Description |
-|----------|-------------|
-| `PROMPT_ENHANCER_PROVIDER` | Override provider selection |
-| `PROMPT_ENHANCER_PROMPT` | Override wrapper prompt template |
-| `PROMPT_ENHANCER_MODEL` | Override model (provider-specific) |
-| `PROMPT_ENHANCER_AUGGIE_PATH` | Path to Auggie executable |
-| `PROMPT_ENHANCER_CLAUDE_PATH` | Path to Claude CLI executable |
-| `PROMPT_ENHANCER_RULES` | Comma-separated rule file paths |
-| `PROMPT_ENHANCER_CLI_ARGS` | Comma-separated CLI arguments |
-| `PROMPT_ENHANCER_MAX_TOKENS` | Max tokens for Claude API |
-| `PROMPT_ENHANCER_API_KEY` | API key for Claude API |
+| Variable                      | Description                                          |
+| ----------------------------- | ---------------------------------------------------- |
+| `PROMPT_ENHANCER_PROVIDER`    | Override provider selection                          |
+| `PROMPT_ENHANCER_PROMPT`      | Override wrapper prompt template                     |
+| `PROMPT_ENHANCER_MODEL`       | Override model (provider-specific)                   |
+| `PROMPT_ENHANCER_AUGGIE_PATH` | Path to Auggie executable                            |
+| `PROMPT_ENHANCER_CLAUDE_PATH` | Path to Claude CLI executable                        |
+| `PROMPT_ENHANCER_RULES`       | Comma-separated rule file paths                      |
+| `PROMPT_ENHANCER_CLI_ARGS`    | Comma-separated CLI arguments                        |
+| `PROMPT_ENHANCER_MAX_TOKENS`  | Max tokens for Claude API                            |
+| `PROMPT_ENHANCER_API_KEY`     | API key for Claude API                               |
 | `PROMPT_ENHANCER_SHOW_STDERR` | Show stderr output (`true`, `1`, or `yes` to enable) |
-| `ANTHROPIC_API_KEY` | Standard Anthropic API key (for Claude API) |
+| `ANTHROPIC_API_KEY`           | Standard Anthropic API key (for Claude API)          |
 
 ### Default Wrapper Prompt
 
@@ -193,6 +199,7 @@ echo "fix the login bug" | node dist/enhance-prompt.js /path/to/project
 ### Vim / Neovim Integration
 
 1. **Add to your `.vimrc` or `init.vim`:**
+
    ```vim
    source /path/to/vim-prompt-enhancer/enhance-prompt.vim
    ```
@@ -247,11 +254,13 @@ For vanilla Emacs or Doom Emacs:
 ### Example
 
 **Before (your rough prompt):**
+
 ```
 add error handling
 ```
 
 **After (enhanced by AI with workspace context):**
+
 ```
 Add comprehensive error handling to the config loader in `src/config.ts`.
 The `loadConfig()` function currently has minimal error handling. Improve it to:
@@ -281,12 +290,14 @@ The `loadConfig()` function currently has minimal error handling. Improve it to:
 If you don't have `auggie` installed globally, create a wrapper script:
 
 **`bin/auggie-wrapper`** (included in this project):
+
 ```bash
 #!/bin/bash
 exec npx -y @augmentcode/auggie@latest "$@"
 ```
 
 Then configure:
+
 ```json
 {
   "auggiePath": "/path/to/vim-prompt-enhancer/bin/auggie-wrapper"
@@ -311,12 +322,14 @@ That's it! No API key needed.
 If `claude` is an alias or not in your PATH, use the included wrapper script:
 
 **`bin/claude-wrapper`** (included in this project):
+
 ```bash
 #!/bin/bash
 exec npx -y @anthropic-ai/claude-code@latest "$@"
 ```
 
 Then configure:
+
 ```json
 {
   "provider": "claude-cli",
@@ -325,6 +338,7 @@ Then configure:
 ```
 
 Or via environment variable:
+
 ```bash
 export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrapper"
 ```
@@ -352,21 +366,21 @@ export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrap
 
 ### Auggie Models
 
-| Model | Speed | Quality | Best For |
-|-------|-------|---------|----------|
-| `haiku4.5` | Fastest | Good | Quick enhancements |
-| `sonnet4.5` | Fast | Excellent | Default choice |
-| `sonnet4` | Medium | Excellent | Complex prompts |
-| `gpt5` | Medium | Excellent | Alternative provider |
+| Model       | Speed   | Quality   | Best For             |
+| ----------- | ------- | --------- | -------------------- |
+| `haiku4.5`  | Fastest | Good      | Quick enhancements   |
+| `sonnet4.5` | Fast    | Excellent | Default choice       |
+| `sonnet4`   | Medium  | Excellent | Complex prompts      |
+| `gpt5`      | Medium  | Excellent | Alternative provider |
 
 ### Claude API Models
 
-| Model | Description |
-|-------|-------------|
-| `claude-sonnet-4-20250514` | Latest Sonnet - fast and capable |
-| `claude-opus-4-20250514` | Latest Opus - most capable |
-| `claude-3-5-sonnet-20241022` | Claude 3.5 Sonnet |
-| `claude-3-5-haiku-20241022` | Claude 3.5 Haiku - fastest |
+| Model                        | Description                      |
+| ---------------------------- | -------------------------------- |
+| `claude-sonnet-4-20250514`   | Latest Sonnet - fast and capable |
+| `claude-opus-4-20250514`     | Latest Opus - most capable       |
+| `claude-3-5-sonnet-20241022` | Claude 3.5 Sonnet                |
+| `claude-3-5-haiku-20241022`  | Claude 3.5 Haiku - fastest       |
 
 ## Project Structure
 
@@ -416,6 +430,7 @@ echo "test prompt" | node dist/enhance-prompt.js $(pwd)
 ### "spawn auggie ENOENT" or "spawn claude ENOENT"
 
 The CLI executable is not found. Either:
+
 - Install the tool globally
 - Use a wrapper script
 - Set the appropriate path in config (`auggiePath` or `claudePath`)
@@ -423,11 +438,13 @@ The CLI executable is not found. Either:
 ### "Claude API provider requires an API key"
 
 For the Claude API provider, you need to set an API key:
+
 ```bash
 export ANTHROPIC_API_KEY="your-api-key"
 ```
 
 Or add it to your config:
+
 ```json
 {
   "provider": "claude-api",
@@ -438,6 +455,7 @@ Or add it to your config:
 ### "Claude API provider requires the @anthropic-ai/sdk package"
 
 Install the optional dependency:
+
 ```bash
 npm install @anthropic-ai/sdk
 ```
@@ -445,6 +463,7 @@ npm install @anthropic-ai/sdk
 ### Enhancement returns original text with error
 
 Check stderr for the specific error. Common issues:
+
 - Invalid API credentials
 - Network connectivity
 - Invalid model name
@@ -453,6 +472,7 @@ Check stderr for the specific error. Common issues:
 ### Vim shows no output
 
 Ensure the CLI is built and the path in `enhance-prompt.vim` is correct:
+
 ```vim
 " Check the command works manually:
 :!echo "test" | npx enhance-prompt $(pwd)

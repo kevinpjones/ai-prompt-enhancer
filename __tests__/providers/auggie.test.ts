@@ -97,10 +97,9 @@ describe("providers/auggie.ts", () => {
       const provider = await createAuggieProvider(defaultConfig);
       await provider.enhance(defaultContext);
 
-      expect(mocks.client.prompt).toHaveBeenCalledWith(
-        "Enhance: original text",
-        { isAnswerOnly: true }
-      );
+      expect(mocks.client.prompt).toHaveBeenCalledWith("Enhance: original text", {
+        isAnswerOnly: true,
+      });
     });
 
     it("should return error result when Auggie.create fails", async () => {

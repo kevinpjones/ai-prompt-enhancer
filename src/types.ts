@@ -17,7 +17,11 @@ export type ProviderType = "auggie" | "claude-cli" | "claude-api";
 /**
  * Array of valid provider types for runtime validation
  */
-export const VALID_PROVIDERS: readonly ProviderType[] = ["auggie", "claude-cli", "claude-api"] as const;
+export const VALID_PROVIDERS: readonly ProviderType[] = [
+  "auggie",
+  "claude-cli",
+  "claude-api",
+] as const;
 
 // ============================================
 // Common Options
@@ -43,7 +47,12 @@ export type AuggieModel = "haiku4.5" | "sonnet4.5" | "sonnet4" | "gpt5";
 /**
  * Array of valid Auggie model values for runtime validation
  */
-export const VALID_AUGGIE_MODELS: readonly AuggieModel[] = ["haiku4.5", "sonnet4.5", "sonnet4", "gpt5"] as const;
+export const VALID_AUGGIE_MODELS: readonly AuggieModel[] = [
+  "haiku4.5",
+  "sonnet4.5",
+  "sonnet4",
+  "gpt5",
+] as const;
 
 /**
  * @deprecated Use VALID_AUGGIE_MODELS instead. Kept for backward compatibility.

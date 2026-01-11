@@ -13,11 +13,7 @@ import type {
   ConfigLoadError,
   ConfigErrorType,
 } from "./types.js";
-import {
-  VALID_PROVIDERS,
-  VALID_AUGGIE_MODELS,
-  VALID_CLAUDE_API_MODELS,
-} from "./types.js";
+import { VALID_PROVIDERS, VALID_AUGGIE_MODELS, VALID_CLAUDE_API_MODELS } from "./types.js";
 
 const DEFAULT_WRAPPER_PROMPT = `You are a prompt enhancement assistant. Given the following rough prompt idea,
 expand it into a clear, detailed, and actionable prompt for an AI coding assistant.
@@ -130,7 +126,7 @@ function validateAuggieModel(model: unknown): ValidationError | null {
       value: model,
     };
   }
-  if (!VALID_AUGGIE_MODELS.includes(model as typeof VALID_AUGGIE_MODELS[number])) {
+  if (!VALID_AUGGIE_MODELS.includes(model as (typeof VALID_AUGGIE_MODELS)[number])) {
     return {
       field: "model",
       message: `Invalid Auggie model "${model}". Valid options: ${VALID_AUGGIE_MODELS.join(", ")}`,
@@ -156,8 +152,10 @@ function validateClaudeApiModel(model: unknown): ValidationError | null {
   }
   // Allow any model string for Claude API (they add new models frequently)
   // but warn if not in known list
-  if (!VALID_CLAUDE_API_MODELS.includes(model as typeof VALID_CLAUDE_API_MODELS[number])) {
-    logWarning(`Model "${model}" is not in the known Claude API models list. It may still work if valid.`);
+  if (!VALID_CLAUDE_API_MODELS.includes(model as (typeof VALID_CLAUDE_API_MODELS)[number])) {
+    logWarning(
+      `Model "${model}" is not in the known Claude API models list. It may still work if valid.`
+    );
   }
   return null;
 }
@@ -179,7 +177,8 @@ function validateWrapperPrompt(wrapperPrompt: unknown): ValidationError | null {
   if (!wrapperPrompt.includes("{input}")) {
     return {
       field: "wrapperPrompt",
-      message: "wrapperPrompt must contain the {input} placeholder for the original text to be inserted",
+      message:
+        "wrapperPrompt must contain the {input} placeholder for the original text to be inserted",
       value: wrapperPrompt.substring(0, 100) + (wrapperPrompt.length > 100 ? "..." : ""),
     };
   }
@@ -207,8 +206,8 @@ function validateRules(rules: unknown): ValidationError | null {
   if (invalidItems.length > 0) {
     return {
       field: "rules",
-      message: `All rules must be strings (file paths). Invalid items at indices: ${invalidItems.map(i => i.index).join(", ")}`,
-      value: invalidItems.map(i => i.item),
+      message: `All rules must be strings (file paths). Invalid items at indices: ${invalidItems.map((i) => i.index).join(", ")}`,
+      value: invalidItems.map((i) => i.item),
     };
   }
 
@@ -219,7 +218,7 @@ function validateRules(rules: unknown): ValidationError | null {
   if (emptyItems.length > 0) {
     return {
       field: "rules",
-      message: `Rule paths cannot be empty strings. Empty items at indices: ${emptyItems.map(i => i.index).join(", ")}`,
+      message: `Rule paths cannot be empty strings. Empty items at indices: ${emptyItems.map((i) => i.index).join(", ")}`,
       value: emptyItems,
     };
   }
@@ -248,8 +247,8 @@ function validateCliArgs(cliArgs: unknown): ValidationError | null {
   if (invalidItems.length > 0) {
     return {
       field: "cliArgs",
-      message: `All CLI arguments must be strings. Invalid items at indices: ${invalidItems.map(i => i.index).join(", ")}`,
-      value: invalidItems.map(i => i.item),
+      message: `All CLI arguments must be strings. Invalid items at indices: ${invalidItems.map((i) => i.index).join(", ")}`,
+      value: invalidItems.map((i) => i.item),
     };
   }
   return null;
@@ -435,7 +434,11 @@ function classifyError(error: unknown): ConfigErrorType {
 /**
  * Create a detailed error message based on error type
  */
-function createErrorDetails(error: unknown, errorType: ConfigErrorType, filePath: string): ConfigLoadError {
+function createErrorDetails(
+  error: unknown,
+  errorType: ConfigErrorType,
+  filePath: string
+): ConfigLoadError {
   const baseError: ConfigLoadError = {
     type: errorType,
     message: "",
@@ -480,7 +483,10 @@ function createErrorDetails(error: unknown, errorType: ConfigErrorType, filePath
 /**
  * Parse and validate JSON content, handling edge cases
  */
-function parseConfigContent(content: string): { config: Record<string, unknown> | null; error: ConfigLoadError | null } {
+function parseConfigContent(content: string): {
+  config: Record<string, unknown> | null;
+  error: ConfigLoadError | null;
+} {
   const trimmed = content.trim();
   if (trimmed === "") {
     return { config: {}, error: null };
@@ -573,27 +579,28 @@ function mergeAuggieConfig(
 ): AuggieProviderConfig {
   return {
     provider: "auggie",
-    model: (!invalidFields.has("model") && parsed.model !== undefined)
-      ? String(parsed.model)
-      : defaults.model,
-    wrapperPrompt: (!invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined)
-      ? String(parsed.wrapperPrompt)
-      : defaults.wrapperPrompt,
-    auggiePath: (!invalidFields.has("auggiePath") && parsed.auggiePath !== undefined)
-      ? String(parsed.auggiePath)
-      : defaults.auggiePath,
-    rules: (!invalidFields.has("rules") && Array.isArray(parsed.rules))
-      ? parsed.rules as string[]
-      : defaults.rules,
-    cliArgs: (!invalidFields.has("cliArgs") && Array.isArray(parsed.cliArgs))
-      ? parsed.cliArgs as string[]
-      : defaults.cliArgs,
-    tools: parsed.tools !== undefined
-      ? parsed.tools as Record<string, unknown>
-      : defaults.tools,
-    showStderr: typeof parsed.showStderr === "boolean"
-      ? parsed.showStderr
-      : defaults.showStderr,
+    model:
+      !invalidFields.has("model") && parsed.model !== undefined
+        ? String(parsed.model)
+        : defaults.model,
+    wrapperPrompt:
+      !invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined
+        ? String(parsed.wrapperPrompt)
+        : defaults.wrapperPrompt,
+    auggiePath:
+      !invalidFields.has("auggiePath") && parsed.auggiePath !== undefined
+        ? String(parsed.auggiePath)
+        : defaults.auggiePath,
+    rules:
+      !invalidFields.has("rules") && Array.isArray(parsed.rules)
+        ? (parsed.rules as string[])
+        : defaults.rules,
+    cliArgs:
+      !invalidFields.has("cliArgs") && Array.isArray(parsed.cliArgs)
+        ? (parsed.cliArgs as string[])
+        : defaults.cliArgs,
+    tools: parsed.tools !== undefined ? (parsed.tools as Record<string, unknown>) : defaults.tools,
+    showStderr: typeof parsed.showStderr === "boolean" ? parsed.showStderr : defaults.showStderr,
   };
 }
 
@@ -607,19 +614,20 @@ function mergeClaudeCliConfig(
 ): ClaudeCliProviderConfig {
   return {
     provider: "claude-cli",
-    wrapperPrompt: (!invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined)
-      ? String(parsed.wrapperPrompt)
-      : defaults.wrapperPrompt,
-    claudePath: (!invalidFields.has("claudePath") && parsed.claudePath !== undefined)
-      ? String(parsed.claudePath)
-      : defaults.claudePath,
+    wrapperPrompt:
+      !invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined
+        ? String(parsed.wrapperPrompt)
+        : defaults.wrapperPrompt,
+    claudePath:
+      !invalidFields.has("claudePath") && parsed.claudePath !== undefined
+        ? String(parsed.claudePath)
+        : defaults.claudePath,
     model: parsed.model !== undefined ? String(parsed.model) : defaults.model,
-    cliArgs: (!invalidFields.has("cliArgs") && Array.isArray(parsed.cliArgs))
-      ? parsed.cliArgs as string[]
-      : defaults.cliArgs,
-    showStderr: typeof parsed.showStderr === "boolean"
-      ? parsed.showStderr
-      : defaults.showStderr,
+    cliArgs:
+      !invalidFields.has("cliArgs") && Array.isArray(parsed.cliArgs)
+        ? (parsed.cliArgs as string[])
+        : defaults.cliArgs,
+    showStderr: typeof parsed.showStderr === "boolean" ? parsed.showStderr : defaults.showStderr,
   };
 }
 
@@ -633,19 +641,20 @@ function mergeClaudeApiConfig(
 ): ClaudeApiProviderConfig {
   return {
     provider: "claude-api",
-    wrapperPrompt: (!invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined)
-      ? String(parsed.wrapperPrompt)
-      : defaults.wrapperPrompt,
-    model: (!invalidFields.has("model") && parsed.model !== undefined)
-      ? String(parsed.model)
-      : defaults.model,
+    wrapperPrompt:
+      !invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined
+        ? String(parsed.wrapperPrompt)
+        : defaults.wrapperPrompt,
+    model:
+      !invalidFields.has("model") && parsed.model !== undefined
+        ? String(parsed.model)
+        : defaults.model,
     apiKey: parsed.apiKey !== undefined ? String(parsed.apiKey) : defaults.apiKey,
-    maxTokens: (!invalidFields.has("maxTokens") && typeof parsed.maxTokens === "number")
-      ? parsed.maxTokens
-      : defaults.maxTokens,
-    showStderr: typeof parsed.showStderr === "boolean"
-      ? parsed.showStderr
-      : defaults.showStderr,
+    maxTokens:
+      !invalidFields.has("maxTokens") && typeof parsed.maxTokens === "number"
+        ? parsed.maxTokens
+        : defaults.maxTokens,
+    showStderr: typeof parsed.showStderr === "boolean" ? parsed.showStderr : defaults.showStderr,
   };
 }
 
@@ -656,7 +665,7 @@ function mergeConfigWithDefaults(
   parsed: Record<string, unknown>,
   validation: ValidationResult
 ): Config {
-  const invalidFields = new Set(validation.errors.map(e => e.field));
+  const invalidFields = new Set(validation.errors.map((e) => e.field));
   const provider = (parsed.provider as ProviderType) || DEFAULT_PROVIDER;
 
   switch (provider) {
@@ -723,11 +732,15 @@ function applyEnvironmentOverrides(config: Config): Config {
       }
 
       if (process.env.PROMPT_ENHANCER_RULES) {
-        auggieConfig.rules = process.env.PROMPT_ENHANCER_RULES.split(",").map(r => r.trim()).filter(r => r !== "");
+        auggieConfig.rules = process.env.PROMPT_ENHANCER_RULES.split(",")
+          .map((r) => r.trim())
+          .filter((r) => r !== "");
       }
 
       if (process.env.PROMPT_ENHANCER_CLI_ARGS) {
-        auggieConfig.cliArgs = process.env.PROMPT_ENHANCER_CLI_ARGS.split(",").map(a => a.trim()).filter(a => a !== "");
+        auggieConfig.cliArgs = process.env.PROMPT_ENHANCER_CLI_ARGS.split(",")
+          .map((a) => a.trim())
+          .filter((a) => a !== "");
       }
       break;
     }
@@ -744,7 +757,9 @@ function applyEnvironmentOverrides(config: Config): Config {
       }
 
       if (process.env.PROMPT_ENHANCER_CLI_ARGS) {
-        claudeCliConfig.cliArgs = process.env.PROMPT_ENHANCER_CLI_ARGS.split(",").map(a => a.trim()).filter(a => a !== "");
+        claudeCliConfig.cliArgs = process.env.PROMPT_ENHANCER_CLI_ARGS.split(",")
+          .map((a) => a.trim())
+          .filter((a) => a !== "");
       }
       break;
     }
@@ -840,7 +855,10 @@ export function loadConfig(): Config {
           }
           logWarning("Invalid fields will use default values");
         }
-        config = mergeConfigWithDefaults(migratedConfig as unknown as Record<string, unknown>, validationResult);
+        config = mergeConfigWithDefaults(
+          migratedConfig as unknown as Record<string, unknown>,
+          validationResult
+        );
       } else {
         // Step 5: Validate new format configuration
         const validationResult = validateConfig(parsedConfig);
@@ -854,8 +872,8 @@ export function loadConfig(): Config {
             logWarning(`Config error in "${error.field}": ${error.message}`);
           }
 
-          const hasCriticalError = validationResult.errors.some(e =>
-            e.field === "root" || e.field === "provider"
+          const hasCriticalError = validationResult.errors.some(
+            (e) => e.field === "root" || e.field === "provider"
           );
 
           if (hasCriticalError) {

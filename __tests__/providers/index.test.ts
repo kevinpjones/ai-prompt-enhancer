@@ -2,14 +2,18 @@
  * Unit tests for src/providers/index.ts
  *
  * Tests the provider registry and factory functions.
- * 
+ *
  * Note: These tests use the actual provider factories since mocking
  * the dynamic imports in each provider is complex. We mock only the
  * external SDKs at the edges.
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { AuggieProviderConfig, ClaudeCliProviderConfig, ClaudeApiProviderConfig } from "../../src/types.js";
+import type {
+  AuggieProviderConfig,
+  ClaudeCliProviderConfig,
+  ClaudeApiProviderConfig,
+} from "../../src/types.js";
 
 // Mock external dependencies used by providers
 vi.mock("@augmentcode/auggie-sdk", () => ({
@@ -129,9 +133,7 @@ describe("providers/index.ts", () => {
         wrapperPrompt: "{input}",
       };
 
-      await expect(createProvider(config)).rejects.toThrow(
-        /Unknown provider.*unknown-provider/
-      );
+      await expect(createProvider(config)).rejects.toThrow(/Unknown provider.*unknown-provider/);
     });
 
     it("should include available providers in error message", async () => {
@@ -140,9 +142,7 @@ describe("providers/index.ts", () => {
         wrapperPrompt: "{input}",
       };
 
-      await expect(createProvider(config)).rejects.toThrow(
-        /Available providers/
-      );
+      await expect(createProvider(config)).rejects.toThrow(/Available providers/);
     });
   });
 });

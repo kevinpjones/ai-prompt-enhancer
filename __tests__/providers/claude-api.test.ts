@@ -2,7 +2,7 @@
  * Unit tests for src/providers/claude-api.ts
  *
  * Tests the Claude API provider implementation.
- * 
+ *
  * Note: The Anthropic SDK is dynamically imported in the provider,
  * which makes it challenging to mock with Vitest's static hoisting.
  * These tests focus on observable behavior and API key validation.

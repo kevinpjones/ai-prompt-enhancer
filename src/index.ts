@@ -27,7 +27,7 @@ process.stderr.write = (
   }
 
   const text = typeof chunk === "string" ? chunk : chunk.toString();
-  if (suppressedPatterns.some(pattern => pattern.test(text))) {
+  if (suppressedPatterns.some((pattern) => pattern.test(text))) {
     return true; // Suppress the write but return success
   }
   if (typeof encodingOrCallback === "function") {
@@ -113,20 +113,15 @@ async function main(): Promise<void> {
       process.stdout.write(result.text);
     } else {
       // Output original text with error message
-      process.stdout.write(
-        `${result.text}\n\n[Enhancement Error: ${result.error}]`
-      );
+      process.stdout.write(`${result.text}\n\n[Enhancement Error: ${result.error}]`);
     }
   } catch (error) {
     // Fatal error: output original text with error message
-    const errorMessage =
-      error instanceof Error ? error.message : String(error);
-    
+    const errorMessage = error instanceof Error ? error.message : String(error);
+
     if (storedInput.trim()) {
       // Return original text with error appended
-      process.stdout.write(
-        `${storedInput.trim()}\n\n[Enhancement Error: ${errorMessage}]`
-      );
+      process.stdout.write(`${storedInput.trim()}\n\n[Enhancement Error: ${errorMessage}]`);
     } else {
       process.stderr.write(`Fatal error: ${errorMessage}\n`);
       process.exit(1);

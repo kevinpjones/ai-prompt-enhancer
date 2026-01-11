@@ -55,10 +55,7 @@ class ClaudeApiProvider implements Provider {
       this.client = new Anthropic({ apiKey });
       return this.client;
     } catch (error) {
-      if (
-        error instanceof Error &&
-        error.message.includes("Cannot find module")
-      ) {
+      if (error instanceof Error && error.message.includes("Cannot find module")) {
         throw new Error(
           "Claude API provider requires the @anthropic-ai/sdk package. " +
             "Install it with: npm install @anthropic-ai/sdk"
@@ -90,9 +87,7 @@ class ClaudeApiProvider implements Provider {
       });
 
       // Extract text from response
-      const textContent = response.content.find(
-        (block: { type: string }) => block.type === "text"
-      );
+      const textContent = response.content.find((block: { type: string }) => block.type === "text");
 
       if (!textContent || textContent.type !== "text") {
         return {
@@ -107,8 +102,7 @@ class ClaudeApiProvider implements Provider {
         text: textContent.text,
       };
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
 
       return {
         success: false,
@@ -129,8 +123,6 @@ class ClaudeApiProvider implements Provider {
  * @param config - Claude API provider configuration
  * @returns Promise resolving to the created provider
  */
-export async function createClaudeApiProvider(
-  config: ClaudeApiProviderConfig
-): Promise<Provider> {
+export async function createClaudeApiProvider(config: ClaudeApiProviderConfig): Promise<Provider> {
   return new ClaudeApiProvider(config);
 }

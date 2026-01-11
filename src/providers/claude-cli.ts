@@ -74,8 +74,7 @@ class ClaudeCliProvider implements Provider {
         text: enhancedText,
       };
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
 
       return {
         success: false,
@@ -148,8 +147,6 @@ class ClaudeCliProvider implements Provider {
  * @param config - Claude CLI provider configuration
  * @returns Promise resolving to the created provider
  */
-export async function createClaudeCliProvider(
-  config: ClaudeCliProviderConfig
-): Promise<Provider> {
+export async function createClaudeCliProvider(config: ClaudeCliProviderConfig): Promise<Provider> {
   return new ClaudeCliProvider(config);
 }

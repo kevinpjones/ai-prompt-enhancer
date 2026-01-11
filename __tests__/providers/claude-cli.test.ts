@@ -153,11 +153,7 @@ describe("providers/claude-cli.ts", () => {
       mockProcess.emit("close", 0);
       await enhancePromise;
 
-      expect(spawn).toHaveBeenCalledWith(
-        "claude",
-        expect.any(Array),
-        expect.any(Object)
-      );
+      expect(spawn).toHaveBeenCalledWith("claude", expect.any(Array), expect.any(Object));
     });
 
     it("should return error when process exits with non-zero code", async () => {

@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+coverage/
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated files
+*.min.js
+*.min.css
+
+# Vim/Emacs files
+enhance-prompt.vim
+enhance-prompt.el
+
+# Binary wrappers
+bin/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Markdown (optional - remove if you want to format README)
+# *.md

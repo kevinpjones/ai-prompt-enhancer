@@ -47,8 +47,7 @@ class AuggieProvider implements Provider {
         text: enhancedText,
       };
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : String(error);
+      const errorMessage = error instanceof Error ? error.message : String(error);
 
       return {
         success: false,
@@ -75,8 +74,6 @@ class AuggieProvider implements Provider {
  * @param config - Auggie provider configuration
  * @returns Promise resolving to the created provider
  */
-export async function createAuggieProvider(
-  config: AuggieProviderConfig
-): Promise<Provider> {
+export async function createAuggieProvider(config: AuggieProviderConfig): Promise<Provider> {
   return new AuggieProvider(config);
 }
