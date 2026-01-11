@@ -1,0 +1,11 @@
+{
+  "model": "sonnet4.5",
+  "auggiePath": "/path/to/vim-prompt-enhancer/bin/auggie-wrapper",
+  "rules": [
+    "/path/to/your/coding-guidelines.md"
+  ],
+  "cliArgs": [
+    "--mcp-config",
+    "/path/to/.auggie/mcp.json"
+  ]
+}

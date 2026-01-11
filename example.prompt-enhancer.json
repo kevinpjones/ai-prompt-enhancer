@@ -1,0 +1,14 @@
+{
+  "_comment": "Example configuration for ai-prompt-enhancer",
+  "_docs": "Copy this file to ~/.prompt-enhancer.json and customize",
+
+  "model": "sonnet4.5",
+
+  "wrapperPrompt": "You are a prompt enhancement assistant. Given the following rough prompt idea,\nexpand it into a clear, detailed, and actionable prompt for an AI coding assistant.\n\nConsider:\n- The workspace context and relevant files\n- Specific, clear instructions\n- Expected output format\n\nOriginal prompt to enhance:\n{input}\n\nProvide an enhanced version that is comprehensive and context-aware. Output ONLY the enhanced prompt, no explanations or preamble.",
+
+  "auggiePath": "auggie",
+
+  "rules": [],
+
+  "cliArgs": []
+}

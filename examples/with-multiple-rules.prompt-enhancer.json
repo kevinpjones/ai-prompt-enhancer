@@ -1,0 +1,10 @@
+{
+  "model": "sonnet4.5",
+  "auggiePath": "auggie",
+  "rules": [
+    "~/projects/standards/typescript-guidelines.md",
+    "~/projects/standards/testing-requirements.md",
+    "~/projects/standards/documentation-style.md"
+  ],
+  "cliArgs": []
+}

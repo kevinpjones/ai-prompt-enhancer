@@ -1,0 +1,4 @@
+{
+  "model": "haiku4.5",
+  "wrapperPrompt": "Enhance this prompt for a coding assistant. Be concise but clear.\n\nOriginal:\n{input}\n\nEnhanced version:"
+}

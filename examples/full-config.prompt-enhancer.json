@@ -1,0 +1,17 @@
+{
+  "model": "sonnet4.5",
+
+  "wrapperPrompt": "You are a prompt enhancement assistant specializing in software development.\n\nYour task is to transform rough prompt ideas into comprehensive, actionable prompts.\n\nWhen enhancing, consider:\n- Relevant files, functions, and patterns in the workspace\n- Clear step-by-step instructions\n- Expected deliverables and success criteria\n- Edge cases and error handling\n- Testing requirements\n- Documentation needs\n\nOriginal prompt:\n{input}\n\nProvide an enhanced version. Output ONLY the enhanced prompt.",
+
+  "auggiePath": "/usr/local/bin/auggie",
+
+  "rules": [
+    "~/dotfiles/ai-rules/coding-standards.md",
+    "~/dotfiles/ai-rules/project-conventions.md"
+  ],
+
+  "cliArgs": [
+    "--mcp-config",
+    "~/.auggie/mcp.json"
+  ]
+}
