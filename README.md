@@ -91,7 +91,7 @@ No API key required! Uses your existing Claude Code authentication.
 ```json
 {
   "provider": "claude-api",
-  "model": "claude-sonnet-4-20250514",
+  "model": "claude-sonnet-4-5",
   "maxTokens": 4096
 }
 ```
@@ -142,9 +142,9 @@ Existing configurations without a `provider` field continue to work and default 
 
 #### Claude API Provider Options
 
-| Option      | Type   | Default                      | Description                                  |
-| ----------- | ------ | ---------------------------- | -------------------------------------------- |
-| `model`     | string | `"claude-sonnet-4-20250514"` | Claude model to use                          |
+| Option      | Type   | Default              | Description                                  |
+| ----------- | ------ | -------------------- | -------------------------------------------- |
+| `model`     | string | `"claude-sonnet-4-5"` | Claude model to use (auto-updates to latest) |
 | `apiKey`    | string | _(env var)_                  | API key (or use `ANTHROPIC_API_KEY` env var) |
 | `maxTokens` | number | `4096`                       | Maximum tokens for response                  |
 
@@ -358,7 +358,7 @@ export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrap
    ```json
    {
      "provider": "claude-api",
-     "model": "claude-sonnet-4-20250514"
+     "model": "claude-sonnet-4-5-20250929"
    }
    ```
 
@@ -375,12 +375,16 @@ export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrap
 
 ### Claude API Models
 
-| Model                        | Description                      |
-| ---------------------------- | -------------------------------- |
-| `claude-sonnet-4-20250514`   | Latest Sonnet - fast and capable |
-| `claude-opus-4-20250514`     | Latest Opus - most capable       |
-| `claude-3-5-sonnet-20241022` | Claude 3.5 Sonnet                |
-| `claude-3-5-haiku-20241022`  | Claude 3.5 Haiku - fastest       |
+| Model                        | Description                                    |
+| ---------------------------- | ---------------------------------------------- |
+| `claude-sonnet-4-5-20250929` | Claude Sonnet 4.5 - smart model                |
+| `claude-haiku-4-5-20251001`  | Claude Haiku 4.5 - fastest                     |
+| `claude-opus-4-5-20251101`   | Claude Opus 4.5 - most capable                 |
+| `claude-sonnet-4-5`          | Alias (default) - auto-updates to latest Sonnet |
+| `claude-haiku-4-5`           | Alias - auto-updates to latest Haiku 4.5      |
+| `claude-opus-4-5`            | Alias - auto-updates to latest Opus 4.5       |
+| `claude-3-5-sonnet-20241022` | Claude 3.5 Sonnet (legacy)                    |
+| `claude-3-5-haiku-20241022`  | Claude 3.5 Haiku (legacy)                     |
 
 ## Project Structure
 

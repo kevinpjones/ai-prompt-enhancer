@@ -114,7 +114,7 @@ describe("providers/index.ts", () => {
     it("should create Claude API provider for claude-api config", async () => {
       const config: ClaudeApiProviderConfig = {
         provider: "claude-api",
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-5",
         wrapperPrompt: "{input}",
         apiKey: "test-key",
       };

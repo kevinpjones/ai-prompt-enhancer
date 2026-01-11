@@ -135,7 +135,7 @@ describe("config.ts", () => {
         const fileConfig = {
           provider: "claude-api",
           wrapperPrompt: "API prompt: {input}",
-          model: "claude-opus-4-20250514",
+          model: "claude-opus-4-5-20251101",
           apiKey: "test-api-key",
           maxTokens: 8192,
         };
@@ -145,7 +145,7 @@ describe("config.ts", () => {
 
         expect(config.provider).toBe("claude-api");
         if (config.provider === "claude-api") {
-          expect(config.model).toBe("claude-opus-4-20250514");
+          expect(config.model).toBe("claude-opus-4-5-20251101");
           expect(config.apiKey).toBe("test-api-key");
           expect(config.maxTokens).toBe(8192);
         }
@@ -492,7 +492,7 @@ describe("config.ts", () => {
     it("should return valid for valid Claude API config", () => {
       const config = {
         provider: "claude-api",
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-5",
         wrapperPrompt: "Test {input}",
       };
       const result = validateConfig(config);

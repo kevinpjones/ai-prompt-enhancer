@@ -67,24 +67,31 @@ describe("types.ts", () => {
   });
 
   describe("VALID_CLAUDE_API_MODELS", () => {
-    it("should contain Claude 4 models", () => {
-      expect(VALID_CLAUDE_API_MODELS).toContain("claude-sonnet-4-20250514");
-      expect(VALID_CLAUDE_API_MODELS).toContain("claude-opus-4-20250514");
+    it("should contain Claude 4.5 models (latest)", () => {
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-sonnet-4-5-20250929");
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-haiku-4-5-20251001");
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-opus-4-5-20251101");
     });
 
-    it("should contain Claude 3.5 models", () => {
+    it("should contain Claude 4.5 version-agnostic aliases", () => {
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-sonnet-4-5");
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-haiku-4-5");
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-opus-4-5");
+    });
+
+    it("should contain Claude 3.5 models (legacy)", () => {
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-3-5-sonnet-20241022");
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-3-5-haiku-20241022");
     });
 
-    it("should contain Claude 3 models", () => {
+    it("should contain Claude 3 models (legacy)", () => {
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-3-opus-20240229");
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-3-sonnet-20240229");
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-3-haiku-20240307");
     });
 
-    it("should have exactly 7 models", () => {
-      expect(VALID_CLAUDE_API_MODELS).toHaveLength(7);
+    it("should have exactly 11 models (3 versioned + 3 aliases + 5 legacy)", () => {
+      expect(VALID_CLAUDE_API_MODELS).toHaveLength(11);
     });
 
     it("should be a readonly array (typed as const)", () => {
@@ -123,7 +130,7 @@ describe("types.ts", () => {
       const config: ClaudeApiProviderConfig = {
         provider: "claude-api",
         wrapperPrompt: "test {input}",
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-5",
         apiKey: "test-key",
         maxTokens: 8192,
         showStderr: false,
@@ -218,7 +225,7 @@ describe("types.ts", () => {
 
       const claudeApiConfig: Config = {
         provider: "claude-api",
-        model: "claude-sonnet-4-20250514",
+        model: "claude-sonnet-4-5",
         wrapperPrompt: "{input}",
       };
 

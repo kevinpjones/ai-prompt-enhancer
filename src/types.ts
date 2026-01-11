@@ -106,24 +106,42 @@ export interface ClaudeCliProviderConfig extends CommonOptions {
 
 /**
  * Valid Claude API model types
+ * Includes both versioned IDs (with date) and version-agnostic aliases
  */
 export type ClaudeApiModel =
-  | "claude-sonnet-4-20250514"
-  | "claude-opus-4-20250514"
+  // Claude 4.5 models (latest)
+  | "claude-sonnet-4-5-20250929"
+  | "claude-haiku-4-5-20251001"
+  | "claude-opus-4-5-20251101"
+  // Version-agnostic aliases (recommended for auto-updates)
+  | "claude-sonnet-4-5"
+  | "claude-haiku-4-5"
+  | "claude-opus-4-5"
+  // Claude 3.5 models (legacy, kept for backward compatibility)
   | "claude-3-5-sonnet-20241022"
   | "claude-3-5-haiku-20241022"
+  // Claude 3 models (legacy, kept for backward compatibility)
   | "claude-3-opus-20240229"
   | "claude-3-sonnet-20240229"
   | "claude-3-haiku-20240307";
 
 /**
  * Array of valid Claude API model values for runtime validation
+ * Ordered by: latest versioned → aliases → legacy models
  */
 export const VALID_CLAUDE_API_MODELS: readonly ClaudeApiModel[] = [
-  "claude-sonnet-4-20250514",
-  "claude-opus-4-20250514",
+  // Claude 4.5 models (latest)
+  "claude-sonnet-4-5-20250929",
+  "claude-haiku-4-5-20251001",
+  "claude-opus-4-5-20251101",
+  // Version-agnostic aliases
+  "claude-sonnet-4-5",
+  "claude-haiku-4-5",
+  "claude-opus-4-5",
+  // Claude 3.5 models (legacy)
   "claude-3-5-sonnet-20241022",
   "claude-3-5-haiku-20241022",
+  // Claude 3 models (legacy)
   "claude-3-opus-20240229",
   "claude-3-sonnet-20240229",
   "claude-3-haiku-20240307",
