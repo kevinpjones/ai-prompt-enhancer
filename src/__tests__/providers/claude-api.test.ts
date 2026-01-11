@@ -9,8 +9,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import type { ClaudeApiProviderConfig } from "../../src/types.js";
-import type { ProviderContext } from "../../src/providers/base.js";
+import type { ClaudeApiProviderConfig } from "../../types.js";
+import type { ProviderContext } from "../../providers/base.js";
 
 // Store original env
 const originalEnv = { ...process.env };
@@ -27,7 +27,7 @@ vi.mock("@anthropic-ai/sdk", () => ({
 }));
 
 // Import after mocks
-import { createClaudeApiProvider } from "../../src/providers/claude-api.js";
+import { createClaudeApiProvider } from "../../providers/claude-api.js";
 
 describe("providers/claude-api.ts", () => {
   const defaultConfig: ClaudeApiProviderConfig = {

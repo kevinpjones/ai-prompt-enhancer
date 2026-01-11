@@ -5,7 +5,7 @@
 ;; Version: 1.0.0
 ;; Package-Requires: ((emacs "25.1"))
 ;; Keywords: convenience, tools, ai
-;; URL: https://github.com/your-repo/vim-prompt-enhancer
+;; URL: https://github.com/your-repo/ai-prompt-enhancer
 
 ;;; Commentary:
 

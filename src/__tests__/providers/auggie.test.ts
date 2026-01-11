@@ -5,8 +5,8 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { AuggieProviderConfig } from "../../src/types.js";
-import type { ProviderContext } from "../../src/providers/base.js";
+import type { AuggieProviderConfig } from "../../types.js";
+import type { ProviderContext } from "../../providers/base.js";
 
 // Hoist mock values using vi.hoisted
 const mocks = vi.hoisted(() => {
@@ -27,7 +27,7 @@ vi.mock("@augmentcode/auggie-sdk", () => ({
 }));
 
 // Import after mocks
-import { createAuggieProvider } from "../../src/providers/auggie.js";
+import { createAuggieProvider } from "../../providers/auggie.js";
 
 describe("providers/auggie.ts", () => {
   const defaultConfig: AuggieProviderConfig = {

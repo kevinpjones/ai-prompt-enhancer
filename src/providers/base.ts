@@ -1,5 +1,5 @@
 /**
- * Provider abstraction layer for vim-prompt-enhancer
+ * Provider abstraction layer for ai-prompt-enhancer
  *
  * This module defines the common interface that all AI providers must implement,
  * enabling the prompt enhancer to work with multiple backends (Auggie, Claude CLI, Claude API, etc.)

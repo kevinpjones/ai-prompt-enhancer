@@ -3,7 +3,7 @@
 # This allows the prompt enhancer to use the latest auggie version
 #
 # Usage: Set auggiePath in your config to point to this script
-#   "auggiePath": "/path/to/vim-prompt-enhancer/bin/auggie-wrapper"
+#   "auggiePath": "/path/to/ai-prompt-enhancer/bin/auggie-wrapper"
 #
 # The SDK will pass its own arguments (--acp, --model, etc.)
 # Additional arguments like --rules and --mcp-config should be set

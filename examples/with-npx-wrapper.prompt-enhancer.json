@@ -1,6 +1,6 @@
 {
   "model": "sonnet4.5",
-  "auggiePath": "/path/to/vim-prompt-enhancer/bin/auggie-wrapper",
+  "auggiePath": "/path/to/ai-prompt-enhancer/bin/auggie-wrapper",
   "rules": [
     "/path/to/your/coding-guidelines.md"
   ],

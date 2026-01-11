@@ -9,11 +9,12 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import { EventEmitter } from "events";
 import type {
   AuggieProviderConfig,
   ClaudeCliProviderConfig,
   ClaudeApiProviderConfig,
-} from "../../src/types.js";
+} from "../../types.js";
 
 // Mock external dependencies used by providers
 vi.mock("@augmentcode/auggie-sdk", () => ({
@@ -27,8 +28,11 @@ vi.mock("@augmentcode/auggie-sdk", () => ({
 
 vi.mock("child_process", () => ({
   spawn: vi.fn(() => {
-    const { EventEmitter } = require("events");
-    const proc = new EventEmitter();
+    const proc = new EventEmitter() as EventEmitter & {
+      stdout: EventEmitter;
+      stderr: EventEmitter;
+      stdin: { write: ReturnType<typeof vi.fn>; end: ReturnType<typeof vi.fn> };
+    };
     proc.stdout = new EventEmitter();
     proc.stderr = new EventEmitter();
     proc.stdin = { write: vi.fn(), end: vi.fn() };
@@ -52,7 +56,7 @@ vi.mock("@anthropic-ai/sdk", () => ({
 }));
 
 // Import after mocks
-import { createProvider, getAvailableProviders } from "../../src/providers/index.js";
+import { createProvider, getAvailableProviders } from "../../providers/index.js";
 
 describe("providers/index.ts", () => {
   beforeEach(() => {

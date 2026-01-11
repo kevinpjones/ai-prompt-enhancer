@@ -10,7 +10,7 @@ import type {
   ProviderContext,
   ProviderResult,
   ProviderFactory,
-} from "../../src/providers/base.js";
+} from "../../providers/base.js";
 
 describe("providers/base.ts", () => {
   describe("ProviderContext interface", () => {

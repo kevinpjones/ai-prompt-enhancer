@@ -48,7 +48,7 @@ export default tseslint.config(
 
   // Test files configuration (relaxed rules)
   {
-    files: ["__tests__/**/*.ts"],
+    files: ["src/__tests__/**/*.ts"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module",

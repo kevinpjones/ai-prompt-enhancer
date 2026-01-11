@@ -1,4 +1,4 @@
-# Personal Prompt Enhancer
+# AI Prompt Enhancer
 
 A command-line tool that enhances AI prompts using multiple providers. Designed to integrate with Vim, Neovim, Emacs, and Spacemacs for seamless prompt enhancement during development.
 
@@ -38,7 +38,7 @@ The enhancer supports three providers:
 
    ```bash
    git clone <repository-url>
-   cd vim-prompt-enhancer
+   cd ai-prompt-enhancer
    npm install
    npm run build
    ```
@@ -201,7 +201,7 @@ echo "fix the login bug" | node dist/enhance-prompt.js /path/to/project
 1. **Add to your `.vimrc` or `init.vim`:**
 
    ```vim
-   source /path/to/vim-prompt-enhancer/enhance-prompt.vim
+   source /path/to/ai-prompt-enhancer/enhance-prompt.vim
    ```
 
 2. **Use in Vim:**
@@ -220,13 +220,13 @@ Add the following to your `dotspacemacs/user-config` section in `~/.spacemacs`:
 
 ```elisp
 ;; Load the enhance-prompt package
-(load "/path/to/vim-prompt-enhancer/enhance-prompt.el")
+(load "/path/to/ai-prompt-enhancer/enhance-prompt.el")
 
 ;; Set up keybindings: SPC o e for region, SPC o E for buffer
 (enhance-prompt-setup-spacemacs-keybindings)
 
 ;; Optional: Customize the command if not using npm link
-(setq enhance-prompt-command "node /path/to/vim-prompt-enhancer/dist/enhance-prompt.js")
+(setq enhance-prompt-command "node /path/to/ai-prompt-enhancer/dist/enhance-prompt.js")
 ```
 
 #### Usage in Spacemacs
@@ -241,7 +241,7 @@ For vanilla Emacs or Doom Emacs:
 
 ```elisp
 ;; Add to your init.el or config.el
-(load "/path/to/vim-prompt-enhancer/enhance-prompt.el")
+(load "/path/to/ai-prompt-enhancer/enhance-prompt.el")
 
 ;; Customize command if needed
 (setq enhance-prompt-command "npx enhance-prompt")
@@ -300,7 +300,7 @@ Then configure:
 
 ```json
 {
-  "auggiePath": "/path/to/vim-prompt-enhancer/bin/auggie-wrapper"
+  "auggiePath": "/path/to/ai-prompt-enhancer/bin/auggie-wrapper"
 }
 ```
 
@@ -333,14 +333,14 @@ Then configure:
 ```json
 {
   "provider": "claude-cli",
-  "claudePath": "/path/to/vim-prompt-enhancer/bin/claude-wrapper"
+  "claudePath": "/path/to/ai-prompt-enhancer/bin/claude-wrapper"
 }
 ```
 
 Or via environment variable:
 
 ```bash
-export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrapper"
+export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/ai-prompt-enhancer/bin/claude-wrapper"
 ```
 
 ### Claude API Provider Setup
@@ -389,7 +389,7 @@ export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrap
 ## Project Structure
 
 ```
-vim-prompt-enhancer/
+ai-prompt-enhancer/
 ├── src/
 │   ├── index.ts        # CLI entry point
 │   ├── config.ts       # Configuration loader

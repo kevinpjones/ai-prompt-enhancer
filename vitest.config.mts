@@ -4,12 +4,12 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "node",
-    include: ["__tests__/**/*.test.ts"],
+    include: ["src/__tests__/**/*.test.ts"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "lcov"],
       include: ["src/**/*.ts"],
-      exclude: ["src/index.ts"], // CLI entry point is integration tested
+      exclude: ["src/index.ts", "src/__tests__/**"], // CLI entry point and tests
     },
     mockReset: true,
     restoreMocks: true,

@@ -26,8 +26,8 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
-    "format": "prettier --write 'src/**/*.ts' '__tests__/**/*.ts' '*.json' '*.md'",
-    "format:check": "prettier --check 'src/**/*.ts' '__tests__/**/*.ts' '*.json' '*.md'"
+    "format": "prettier --write 'src/**/*.ts' '*.json' '*.md'",
+    "format:check": "prettier --check 'src/**/*.ts' '*.json' '*.md'"
   },
   "keywords": [
     "prompt",

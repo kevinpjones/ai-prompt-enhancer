@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import type { AuggieProviderConfig, ClaudeCliProviderConfig } from "../src/types.js";
+import type { AuggieProviderConfig, ClaudeCliProviderConfig } from "../types.js";
 
 // Hoist mock provider
 const mocks = vi.hoisted(() => ({
@@ -18,16 +18,16 @@ const mocks = vi.hoisted(() => ({
   buildPrompt: vi.fn((wrapper: string, input: string) => wrapper.replace("{input}", input)),
 }));
 
-vi.mock("../src/providers/index.js", () => ({
+vi.mock("../providers/index.js", () => ({
   createProvider: mocks.createProvider,
 }));
 
-vi.mock("../src/config.js", () => ({
+vi.mock("../config.js", () => ({
   buildPrompt: mocks.buildPrompt,
 }));
 
 // Import after mocks
-import { enhancePrompt } from "../src/enhancer.js";
+import { enhancePrompt } from "../enhancer.js";
 
 describe("enhancer.ts", () => {
   const defaultConfig: AuggieProviderConfig = {

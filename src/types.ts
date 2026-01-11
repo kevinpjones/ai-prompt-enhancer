@@ -1,5 +1,5 @@
 /**
- * Type definitions for vim-prompt-enhancer
+ * Type definitions for ai-prompt-enhancer
  *
  * This module defines the types for configuration, validation, and enhancement results.
  * The configuration system uses a discriminated union based on the `provider` field.

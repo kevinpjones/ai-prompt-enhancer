@@ -10,9 +10,6 @@ import {
   VALID_AUGGIE_MODELS,
   VALID_CLAUDE_API_MODELS,
   VALID_MODELS,
-  type ProviderType,
-  type AuggieModel,
-  type ClaudeApiModel,
   type Config,
   type AuggieProviderConfig,
   type ClaudeCliProviderConfig,
@@ -23,7 +20,7 @@ import {
   type ValidationResult,
   type ConfigErrorType,
   type ConfigLoadError,
-} from "../src/types.js";
+} from "../types.js";
 
 describe("types.ts", () => {
   describe("VALID_PROVIDERS", () => {

@@ -3,9 +3,9 @@
 # This allows the prompt enhancer to use the Claude Code CLI
 #
 # Usage: Set claudePath in your config to point to this script
-#   "claudePath": "/path/to/vim-prompt-enhancer/bin/claude-wrapper"
+#   "claudePath": "/path/to/ai-prompt-enhancer/bin/claude-wrapper"
 #
 # Or set via environment variable:
-#   export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/vim-prompt-enhancer/bin/claude-wrapper"
+#   export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/ai-prompt-enhancer/bin/claude-wrapper"
 
 exec npx -y @anthropic-ai/claude-code@latest "$@"

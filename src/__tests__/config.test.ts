@@ -29,7 +29,7 @@ vi.mock("os", () => ({
 }));
 
 // Import after mocks are set up
-import { loadConfig, validateConfig, buildPrompt } from "../src/config.js";
+import { loadConfig, validateConfig, buildPrompt } from "../config.js";
 
 describe("config.ts", () => {
   beforeEach(() => {

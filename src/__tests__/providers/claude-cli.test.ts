@@ -4,10 +4,10 @@
  * Tests the Claude CLI provider implementation.
  */
 
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { createClaudeCliProvider } from "../../src/providers/claude-cli.js";
-import type { ClaudeCliProviderConfig } from "../../src/types.js";
-import type { ProviderContext } from "../../src/providers/base.js";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { createClaudeCliProvider } from "../../providers/claude-cli.js";
+import type { ClaudeCliProviderConfig } from "../../types.js";
+import type { ProviderContext } from "../../providers/base.js";
 import { spawn } from "child_process";
 import { EventEmitter } from "events";
 
