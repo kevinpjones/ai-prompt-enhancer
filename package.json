@@ -20,7 +20,10 @@
     "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --banner:js=\"#!/usr/bin/env node\" --outfile=dist/enhance-prompt.js --external:@anthropic-ai/sdk && chmod +x dist/enhance-prompt.js",
     "type-check": "tsc --noEmit",
     "dev": "npm run build && node dist/enhance-prompt.js",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
     "prompt",
@@ -41,7 +44,9 @@
   },
   "devDependencies": {
     "@types/node": "^22.10.5",
+    "@vitest/coverage-v8": "^2.1.0",
     "esbuild": "^0.24.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.0"
   }
 }
