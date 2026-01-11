@@ -4,6 +4,11 @@
 export type AuggieModel = "haiku4.5" | "sonnet4.5" | "sonnet4" | "gpt5";
 
 /**
+ * Array of valid model values for runtime validation
+ */
+export const VALID_MODELS: readonly AuggieModel[] = ["haiku4.5", "sonnet4.5", "sonnet4", "gpt5"] as const;
+
+/**
  * Configuration for the prompt enhancer
  */
 export interface Config {
@@ -19,6 +24,45 @@ export interface Config {
   rules?: string[];
   /** Additional CLI arguments to pass to Auggie */
   cliArgs?: string[];
+}
+
+/**
+ * Validation error with field-specific details
+ */
+export interface ValidationError {
+  field: string;
+  message: string;
+  value?: unknown;
+}
+
+/**
+ * Result of configuration validation
+ */
+export interface ValidationResult {
+  valid: boolean;
+  errors: ValidationError[];
+  warnings: ValidationError[];
+}
+
+/**
+ * Types of configuration loading errors
+ */
+export type ConfigErrorType =
+  | "FILE_NOT_FOUND"
+  | "FILE_PERMISSION"
+  | "FILE_READ"
+  | "JSON_PARSE"
+  | "VALIDATION"
+  | "UNKNOWN";
+
+/**
+ * Detailed configuration loading error
+ */
+export interface ConfigLoadError {
+  type: ConfigErrorType;
+  message: string;
+  details?: string;
+  filePath?: string;
 }
 
 /**
