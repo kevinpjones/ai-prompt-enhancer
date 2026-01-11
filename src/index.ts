@@ -1,6 +1,30 @@
 import { loadConfig } from "./config.js";
 import { enhancePrompt } from "./enhancer.js";
 
+// Suppress noisy SDK/MCP warnings from polluting output
+// These patterns are known non-critical warnings from dependencies
+const suppressedPatterns = [
+  /Failed to read SDK version/i,
+  /MCP server startup error/i,
+  /Streamable HTTP error/i,
+];
+
+const originalStderrWrite = process.stderr.write.bind(process.stderr);
+process.stderr.write = (
+  chunk: string | Uint8Array,
+  encodingOrCallback?: BufferEncoding | ((err?: Error | null) => void),
+  callback?: (err?: Error | null) => void
+): boolean => {
+  const text = typeof chunk === "string" ? chunk : chunk.toString();
+  if (suppressedPatterns.some(pattern => pattern.test(text))) {
+    return true; // Suppress the write but return success
+  }
+  if (typeof encodingOrCallback === "function") {
+    return originalStderrWrite(chunk, encodingOrCallback);
+  }
+  return originalStderrWrite(chunk, encodingOrCallback, callback);
+};
+
 // Store original input for error recovery
 let storedInput = "";
 

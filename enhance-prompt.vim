@@ -12,14 +12,33 @@ function! EnhancePrompt()
 
     " 4. Construct the shell command using npx to run the enhancer
     " The text is passed via stdin, cwd as argument
-    let cmd = "echo " . shellescape(selected_text) . " | npx enhance-prompt " . shellescape(cwd)
+    " Redirect stderr to /dev/null to suppress SDK/MCP startup warnings
+    let cmd = "echo " . shellescape(selected_text) . " | npx enhance-prompt " . shellescape(cwd) . " 2>/dev/null"
 
-    " 5. Execute and capture output
+    " 5. Show loading indicator before the blocking call
+    echohl WarningMsg
+    echo "Enhancing prompt..."
+    echohl None
+    redraw
+
+    " 6. Execute and capture output
     let output = system(cmd)
+    let exit_code = v:shell_error
 
-    " 6. Replace the visual selection with the output
+    " 7. Replace the visual selection with the output
     execute line_start . "," . line_end . "delete"
     call append(line_start - 1, split(output, "\n"))
+
+    " 8. Show completion message
+    if exit_code == 0
+        echohl MoreMsg
+        echo "Prompt enhanced successfully"
+        echohl None
+    else
+        echohl ErrorMsg
+        echo "Prompt enhancement completed with errors (exit code: " . exit_code . ")"
+        echohl None
+    endif
 endfunction
 
 " Map to a convenient key binding (optional)

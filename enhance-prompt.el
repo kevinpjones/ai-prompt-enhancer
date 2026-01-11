@@ -75,13 +75,15 @@ Replaces the selected text with an AI-enhanced version."
     (when enhance-prompt-show-progress
       (message "Enhancing prompt..."))
     ;; Run the command with selected text as stdin
+    ;; Use (t nil) for BUFFER arg to send stdout to current buffer and discard stderr
+    ;; This suppresses SDK/MCP startup warnings from polluting the output
     (with-temp-buffer
       (insert selected-text)
       (setq result
             (call-process-region (point-min) (point-max)
                                  shell-file-name
                                  t           ; delete region (replace with output)
-                                 t           ; output to current buffer
+                                 '(t nil)    ; stdout to current buffer, discard stderr
                                  nil         ; no display
                                  shell-command-switch
                                  cmd))
