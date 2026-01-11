@@ -1,7 +1,7 @@
 {
   "name": "ai-prompt-enhancer",
-  "version": "1.0.0",
-  "description": "CLI tool to enhance AI prompts using Auggie SDK",
+  "version": "2.0.0",
+  "description": "CLI tool to enhance AI prompts using multiple providers (Auggie, Claude CLI, Claude API)",
   "type": "commonjs",
   "main": "./dist/enhance-prompt.js",
   "bin": {
@@ -17,7 +17,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --banner:js=\"#!/usr/bin/env node\" --outfile=dist/enhance-prompt.js && chmod +x dist/enhance-prompt.js",
+    "build": "esbuild src/index.ts --bundle --platform=node --format=cjs --banner:js=\"#!/usr/bin/env node\" --outfile=dist/enhance-prompt.js --external:@anthropic-ai/sdk && chmod +x dist/enhance-prompt.js",
     "type-check": "tsc --noEmit",
     "dev": "npm run build && node dist/enhance-prompt.js",
     "prepublishOnly": "npm run build"
@@ -27,12 +27,17 @@
     "enhancer",
     "vim",
     "ai",
-    "augment"
+    "augment",
+    "claude",
+    "anthropic"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "@augmentcode/auggie-sdk": "^0.1.13"
+  },
+  "optionalDependencies": {
+    "@anthropic-ai/sdk": "^0.30.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.5",

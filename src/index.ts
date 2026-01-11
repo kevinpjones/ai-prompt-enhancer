@@ -1,6 +1,9 @@
 import { loadConfig } from "./config.js";
 import { enhancePrompt } from "./enhancer.js";
 
+// Flag to control stderr filtering (set after config is loaded)
+let filterStderr = true;
+
 // Suppress noisy SDK/MCP warnings from polluting output
 // These patterns are known non-critical warnings from dependencies
 const suppressedPatterns = [
@@ -15,6 +18,14 @@ process.stderr.write = (
   encodingOrCallback?: BufferEncoding | ((err?: Error | null) => void),
   callback?: (err?: Error | null) => void
 ): boolean => {
+  // If filtering is disabled, pass through all stderr
+  if (!filterStderr) {
+    if (typeof encodingOrCallback === "function") {
+      return originalStderrWrite(chunk, encodingOrCallback);
+    }
+    return originalStderrWrite(chunk, encodingOrCallback, callback);
+  }
+
   const text = typeof chunk === "string" ? chunk : chunk.toString();
   if (suppressedPatterns.some(pattern => pattern.test(text))) {
     return true; // Suppress the write but return success
@@ -88,6 +99,11 @@ async function main(): Promise<void> {
 
     // Load configuration
     const config = loadConfig();
+
+    // Apply showStderr setting (if true, disable stderr filtering)
+    if (config.showStderr) {
+      filterStderr = false;
+    }
 
     // Enhance the prompt
     const result = await enhancePrompt(storedInput.trim(), workspaceRoot, config);

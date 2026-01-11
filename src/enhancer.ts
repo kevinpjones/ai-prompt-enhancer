@@ -1,16 +1,21 @@
-import { Auggie } from "@augmentcode/auggie-sdk";
+/**
+ * Prompt enhancer facade
+ *
+ * This module provides the main entry point for prompt enhancement.
+ * It delegates to the appropriate provider based on configuration.
+ */
+
 import type { Config, EnhanceResult } from "./types.js";
 import { buildPrompt } from "./config.js";
-
-// Valid model types from Auggie SDK
-type AuggieModel = "haiku4.5" | "sonnet4.5" | "sonnet4" | "gpt5";
+import { createProvider } from "./providers/index.js";
+import type { Provider } from "./providers/base.js";
 
 /**
- * Enhance a prompt using the Auggie SDK
+ * Enhance a prompt using the configured provider
  *
  * @param input - The original prompt text to enhance
  * @param workspaceRoot - The current working directory for workspace context
- * @param config - Configuration options
+ * @param config - Configuration options including provider selection
  * @returns Enhanced prompt result
  */
 export async function enhancePrompt(
@@ -18,29 +23,23 @@ export async function enhancePrompt(
   workspaceRoot: string,
   config: Config
 ): Promise<EnhanceResult> {
-  let client: Auggie | null = null;
+  let provider: Provider | null = null;
 
   try {
     // Build the full prompt with wrapper
     const fullPrompt = buildPrompt(config.wrapperPrompt, input);
 
-    // Initialize Auggie SDK with all config options
-    client = await Auggie.create({
-      model: config.model as AuggieModel,
+    // Create provider based on config
+    provider = await createProvider(config);
+
+    // Enhance using the provider
+    const result = await provider.enhance({
+      input,
+      fullPrompt,
       workspaceRoot,
-      allowIndexing: true,
-      auggiePath: config.auggiePath,
-      rules: config.rules,
-      cliArgs: config.cliArgs,
     });
 
-    // Send prompt and get response (returns string directly)
-    const enhancedText = await client.prompt(fullPrompt, { isAnswerOnly: true });
-
-    return {
-      success: true,
-      text: enhancedText,
-    };
+    return result;
   } catch (error) {
     const errorMessage =
       error instanceof Error ? error.message : String(error);
@@ -51,10 +50,10 @@ export async function enhancePrompt(
       error: errorMessage,
     };
   } finally {
-    // Always clean up the client
-    if (client) {
+    // Always clean up the provider
+    if (provider) {
       try {
-        await client.close();
+        await provider.close();
       } catch {
         // Ignore cleanup errors
       }
