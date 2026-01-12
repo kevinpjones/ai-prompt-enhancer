@@ -210,6 +210,47 @@ echo "fix the login bug" | node dist/enhance-prompt.js /path/to/project
    - Press `<Leader>e` or run `:call EnhancePrompt()`
    - The selected text is replaced with the enhanced prompt
 
+#### Configuration Options
+
+All configuration variables should be set **before** sourcing the script.
+
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| `g:enhance_prompt_command` | `'npx enhance-prompt'` | The command to run |
+| `g:enhance_prompt_env` | `''` | Environment variables to prepend |
+| `g:enhance_prompt_debug` | `0` | Show stderr output for debugging |
+
+#### Example Configurations
+
+**Using `npm link` with nodenv** (recommended for local development):
+```vim
+" Use the linked binary directly - bypasses npx registry lookup
+let g:enhance_prompt_command = '~/.nodenv/versions/22.18.0/bin/enhance-prompt'
+source /path/to/ai-prompt-enhancer/enhance-prompt.vim
+```
+
+**Using nodenv shims** (makes NODENV_VERSION work):
+```vim
+let g:enhance_prompt_env = 'NODENV_VERSION=22.18.0 PATH=~/.nodenv/shims:$PATH'
+source /path/to/ai-prompt-enhancer/enhance-prompt.vim
+```
+
+**Using node directly** (works without npm link):
+```vim
+let g:enhance_prompt_command = 'node /path/to/ai-prompt-enhancer/dist/enhance-prompt.js'
+source /path/to/ai-prompt-enhancer/enhance-prompt.vim
+```
+
+#### Debugging
+
+If enhancement fails, use debug mode to see error output:
+
+```vim
+:EnhancePromptDebugToggle    " Toggle debug mode on/off
+```
+
+With debug mode enabled, stderr is included in the output instead of being suppressed, making it easier to diagnose issues like missing commands or configuration errors
+
 ### Spacemacs Integration
 
 Spacemacs uses Emacs Lisp, not Vimscript. Use the provided `enhance-prompt.el` file.
