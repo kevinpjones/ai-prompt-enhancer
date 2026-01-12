@@ -12,7 +12,7 @@
 /**
  * Supported provider identifiers
  */
-export type ProviderType = "auggie" | "claude-cli" | "claude-api";
+export type ProviderType = "auggie" | "claude-cli" | "claude-api" | "gemini-cli";
 
 /**
  * Array of valid provider types for runtime validation
@@ -21,6 +21,7 @@ export const VALID_PROVIDERS: readonly ProviderType[] = [
   "auggie",
   "claude-cli",
   "claude-api",
+  "gemini-cli",
 ] as const;
 
 // ============================================
@@ -101,6 +102,27 @@ export interface ClaudeCliProviderConfig extends CommonOptions {
 }
 
 // ============================================
+// Gemini CLI Provider Types
+// ============================================
+
+/**
+ * Configuration for Google Gemini CLI provider
+ * Uses the `gemini` CLI tool - requires Google Cloud authentication
+ */
+export interface GeminiCliProviderConfig extends CommonOptions {
+  /** Provider type discriminator */
+  provider: "gemini-cli";
+  /** Wrapper prompt template. Use {input} as placeholder for the original text */
+  wrapperPrompt: string;
+  /** Path to the Gemini CLI executable (default: "gemini") */
+  geminiPath?: string;
+  /** Model to use (optional, uses Gemini's default if not specified) */
+  model?: string;
+  /** Additional CLI arguments to pass to Gemini CLI */
+  cliArgs?: string[];
+}
+
+// ============================================
 // Claude API Provider Types
 // ============================================
 
@@ -171,7 +193,11 @@ export interface ClaudeApiProviderConfig extends CommonOptions {
 /**
  * Full configuration - discriminated union based on provider field
  */
-export type Config = AuggieProviderConfig | ClaudeCliProviderConfig | ClaudeApiProviderConfig;
+export type Config =
+  | AuggieProviderConfig
+  | ClaudeCliProviderConfig
+  | ClaudeApiProviderConfig
+  | GeminiCliProviderConfig;
 
 /**
  * Legacy config format (for backward compatibility)

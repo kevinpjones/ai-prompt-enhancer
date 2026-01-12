@@ -10,6 +10,7 @@ import type { Config, ProviderType } from "../types.js";
 import { createAuggieProvider } from "./auggie.js";
 import { createClaudeCliProvider } from "./claude-cli.js";
 import { createClaudeApiProvider } from "./claude-api.js";
+import { createGeminiCliProvider } from "./gemini-cli.js";
 
 /**
  * Registry of available providers mapped to their factory functions
@@ -18,6 +19,7 @@ const providerFactories: Record<ProviderType, ProviderFactory<Config>> = {
   auggie: createAuggieProvider as ProviderFactory<Config>,
   "claude-cli": createClaudeCliProvider as ProviderFactory<Config>,
   "claude-api": createClaudeApiProvider as ProviderFactory<Config>,
+  "gemini-cli": createGeminiCliProvider as ProviderFactory<Config>,
 };
 
 /**

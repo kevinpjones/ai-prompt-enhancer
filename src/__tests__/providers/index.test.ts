@@ -14,6 +14,7 @@ import type {
   AuggieProviderConfig,
   ClaudeCliProviderConfig,
   ClaudeApiProviderConfig,
+  GeminiCliProviderConfig,
 } from "../../types.js";
 
 // Mock external dependencies used by providers
@@ -70,11 +71,12 @@ describe("providers/index.ts", () => {
       expect(providers).toContain("auggie");
       expect(providers).toContain("claude-cli");
       expect(providers).toContain("claude-api");
+      expect(providers).toContain("gemini-cli");
     });
 
-    it("should return exactly 3 providers", () => {
+    it("should return exactly 4 providers", () => {
       const providers = getAvailableProviders();
-      expect(providers).toHaveLength(3);
+      expect(providers).toHaveLength(4);
     });
 
     it("should return array of strings", () => {
@@ -127,6 +129,20 @@ describe("providers/index.ts", () => {
 
       expect(provider).toBeDefined();
       expect(provider.name).toBe("claude-api");
+      expect(typeof provider.enhance).toBe("function");
+      expect(typeof provider.close).toBe("function");
+    });
+
+    it("should create Gemini CLI provider for gemini-cli config", async () => {
+      const config: GeminiCliProviderConfig = {
+        provider: "gemini-cli",
+        wrapperPrompt: "{input}",
+      };
+
+      const provider = await createProvider(config);
+
+      expect(provider).toBeDefined();
+      expect(provider.name).toBe("gemini-cli");
       expect(typeof provider.enhance).toBe("function");
       expect(typeof provider.close).toBe("function");
     });

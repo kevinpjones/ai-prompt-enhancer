@@ -14,6 +14,7 @@ import {
   type AuggieProviderConfig,
   type ClaudeCliProviderConfig,
   type ClaudeApiProviderConfig,
+  type GeminiCliProviderConfig,
   type LegacyConfig,
   type EnhanceResult,
   type ValidationError,
@@ -28,10 +29,11 @@ describe("types.ts", () => {
       expect(VALID_PROVIDERS).toContain("auggie");
       expect(VALID_PROVIDERS).toContain("claude-cli");
       expect(VALID_PROVIDERS).toContain("claude-api");
+      expect(VALID_PROVIDERS).toContain("gemini-cli");
     });
 
-    it("should have exactly 3 providers", () => {
-      expect(VALID_PROVIDERS).toHaveLength(3);
+    it("should have exactly 4 providers", () => {
+      expect(VALID_PROVIDERS).toHaveLength(4);
     });
 
     it("should be a readonly array (typed as const)", () => {
@@ -135,6 +137,18 @@ describe("types.ts", () => {
       expect(config.provider).toBe("claude-api");
     });
 
+    it("should allow valid GeminiCliProviderConfig", () => {
+      const config: GeminiCliProviderConfig = {
+        provider: "gemini-cli",
+        wrapperPrompt: "test {input}",
+        geminiPath: "/path/to/gemini",
+        model: "gemini-1.5-pro",
+        cliArgs: ["--arg"],
+        showStderr: true,
+      };
+      expect(config.provider).toBe("gemini-cli");
+    });
+
     it("should allow valid LegacyConfig without provider field", () => {
       const config: LegacyConfig = {
         model: "sonnet4.5",
@@ -226,9 +240,15 @@ describe("types.ts", () => {
         wrapperPrompt: "{input}",
       };
 
+      const geminiCliConfig: Config = {
+        provider: "gemini-cli",
+        wrapperPrompt: "{input}",
+      };
+
       expect(auggieConfig.provider).toBe("auggie");
       expect(claudeCliConfig.provider).toBe("claude-cli");
       expect(claudeApiConfig.provider).toBe("claude-api");
+      expect(geminiCliConfig.provider).toBe("gemini-cli");
     });
   });
 });

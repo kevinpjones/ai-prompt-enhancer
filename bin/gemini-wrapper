@@ -1,0 +1,18 @@
+#!/bin/bash
+# Wrapper script to run gemini via npx
+# This allows the prompt enhancer to use the Google Gemini CLI
+#
+# Usage: Set geminiPath in your config to point to this script
+#   "geminiPath": "/path/to/ai-prompt-enhancer/bin/gemini-wrapper"
+#
+# Or set via environment variable:
+#   export PROMPT_ENHANCER_GEMINI_PATH="/path/to/ai-prompt-enhancer/bin/gemini-wrapper"
+#
+# Note: You may need to set GOOGLE_CLOUD_PROJECT environment variable
+# for authentication with Google Cloud.
+#
+# Example:
+#   export GOOGLE_CLOUD_PROJECT=your-project-id
+#   ./gemini-wrapper "Your prompt here"
+
+exec npx -y @google/gemini-cli@latest "$@"
