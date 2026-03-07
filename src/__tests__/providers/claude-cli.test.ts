@@ -106,7 +106,7 @@ describe("providers/claude-cli.ts", () => {
     it("should include model argument when specified", async () => {
       const configWithModel: ClaudeCliProviderConfig = {
         ...defaultConfig,
-        model: "claude-3-opus",
+        model: "claude-sonnet-4-6",
       };
       const provider = await createClaudeCliProvider(configWithModel);
 
@@ -117,7 +117,7 @@ describe("providers/claude-cli.ts", () => {
 
       expect(spawn).toHaveBeenCalledWith(
         "/path/to/claude",
-        expect.arrayContaining(["--model", "claude-3-opus"]),
+        expect.arrayContaining(["--model", "claude-sonnet-4-6"]),
         expect.any(Object)
       );
     });

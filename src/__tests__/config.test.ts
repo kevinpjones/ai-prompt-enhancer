@@ -65,7 +65,7 @@ describe("config.ts", () => {
         expect(config.provider).toBe("auggie");
         expect(config.wrapperPrompt).toContain("{input}");
         if (config.provider === "auggie") {
-          expect(config.model).toBe("sonnet4.5");
+          expect(config.model).toBe("sonnet4.6");
           expect(config.auggiePath).toBe("auggie");
           expect(config.rules).toEqual([]);
           expect(config.cliArgs).toEqual([]);
@@ -183,7 +183,7 @@ describe("config.ts", () => {
 
         expect(config.provider).toBe("auggie");
         if (config.provider === "auggie") {
-          expect(config.model).toBe("sonnet4.5"); // Default
+          expect(config.model).toBe("sonnet4.6"); // Default
         }
       });
     });
@@ -393,7 +393,7 @@ describe("config.ts", () => {
     it("should return valid for valid Auggie config", () => {
       const config = {
         provider: "auggie",
-        model: "sonnet4.5",
+        model: "sonnet4.6",
         wrapperPrompt: "Test {input}",
       };
       const result = validateConfig(config);
@@ -492,7 +492,7 @@ describe("config.ts", () => {
     it("should return valid for valid Claude API config", () => {
       const config = {
         provider: "claude-api",
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         wrapperPrompt: "Test {input}",
       };
       const result = validateConfig(config);

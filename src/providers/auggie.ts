@@ -7,7 +7,7 @@
 
 import { Auggie } from "@augmentcode/auggie-sdk";
 import type { Provider, ProviderContext, ProviderResult } from "./base.js";
-import type { AuggieProviderConfig, AuggieModel } from "../types.js";
+import type { AuggieProviderConfig } from "../types.js";
 
 /**
  * Provider implementation using the Auggie SDK
@@ -29,7 +29,7 @@ class AuggieProvider implements Provider {
 
       // Initialize Auggie SDK with all config options
       this.client = await Auggie.create({
-        model: this.config.model as AuggieModel,
+        model: this.config.model as "sonnet4", // SDK types lag behind runtime; all `auggie model list` models work
         workspaceRoot: context.workspaceRoot,
         allowIndexing: true,
         auggiePath: this.config.auggiePath,

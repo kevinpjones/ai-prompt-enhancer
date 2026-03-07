@@ -91,7 +91,7 @@ describe("providers/index.ts", () => {
     it("should create Auggie provider for auggie config", async () => {
       const config: AuggieProviderConfig = {
         provider: "auggie",
-        model: "sonnet4.5",
+        model: "sonnet4.6",
         wrapperPrompt: "{input}",
       };
 
@@ -120,7 +120,7 @@ describe("providers/index.ts", () => {
     it("should create Claude API provider for claude-api config", async () => {
       const config: ClaudeApiProviderConfig = {
         provider: "claude-api",
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         wrapperPrompt: "{input}",
         apiKey: "test-key",
       };

@@ -32,7 +32,7 @@ import { createClaudeApiProvider } from "../../providers/claude-api.js";
 describe("providers/claude-api.ts", () => {
   const defaultConfig: ClaudeApiProviderConfig = {
     provider: "claude-api",
-    model: "claude-sonnet-4-5",
+    model: "claude-sonnet-4-6",
     wrapperPrompt: "Enhance: {input}",
     apiKey: "test-api-key",
     maxTokens: 4096,
@@ -91,7 +91,7 @@ describe("providers/claude-api.ts", () => {
       process.env.ANTHROPIC_API_KEY = "env-api-key";
       const configNoKey: ClaudeApiProviderConfig = {
         provider: "claude-api",
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         wrapperPrompt: "{input}",
       };
 
@@ -105,7 +105,7 @@ describe("providers/claude-api.ts", () => {
     it("should return error when no API key is available", async () => {
       const configNoKey: ClaudeApiProviderConfig = {
         provider: "claude-api",
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         wrapperPrompt: "{input}",
       };
 
@@ -121,7 +121,7 @@ describe("providers/claude-api.ts", () => {
       await provider.enhance(defaultContext);
 
       expect(mockCreate).toHaveBeenCalledWith({
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         max_tokens: 4096,
         messages: [
           {
@@ -144,7 +144,7 @@ describe("providers/claude-api.ts", () => {
 
       expect(mockCreate).toHaveBeenCalledWith(
         expect.objectContaining({
-          model: "claude-sonnet-4-5",
+          model: "claude-sonnet-4-6",
         })
       );
     });

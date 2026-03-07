@@ -32,7 +32,7 @@ import { enhancePrompt } from "../enhancer.js";
 describe("enhancer.ts", () => {
   const defaultConfig: AuggieProviderConfig = {
     provider: "auggie",
-    model: "sonnet4.5",
+    model: "sonnet4.6",
     wrapperPrompt: "Enhance: {input}",
   };
 

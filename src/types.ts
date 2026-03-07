@@ -43,16 +43,32 @@ export interface CommonOptions {
 /**
  * Valid Auggie model types
  */
-export type AuggieModel = "haiku4.5" | "sonnet4.5" | "sonnet4" | "gpt5";
+export type AuggieModel =
+  | "haiku4.5"
+  | "opus4.5"
+  | "opus4.6"
+  | "sonnet4"
+  | "sonnet4.5"
+  | "sonnet4.6"
+  | "gpt5"
+  | "gpt5.1"
+  | "gpt5.2"
+  | "gpt5.4";
 
 /**
  * Array of valid Auggie model values for runtime validation
  */
 export const VALID_AUGGIE_MODELS: readonly AuggieModel[] = [
   "haiku4.5",
-  "sonnet4.5",
+  "opus4.5",
+  "opus4.6",
   "sonnet4",
+  "sonnet4.5",
+  "sonnet4.6",
   "gpt5",
+  "gpt5.1",
+  "gpt5.2",
+  "gpt5.4",
 ] as const;
 
 /**
@@ -131,7 +147,10 @@ export interface GeminiCliProviderConfig extends CommonOptions {
  * Includes both versioned IDs (with date) and version-agnostic aliases
  */
 export type ClaudeApiModel =
-  // Claude 4.5 models (latest)
+  // Claude 4.6 models (latest)
+  | "claude-opus-4-6"
+  | "claude-sonnet-4-6"
+  // Claude 4.5 models
   | "claude-sonnet-4-5-20250929"
   | "claude-haiku-4-5-20251001"
   | "claude-opus-4-5-20251101"
@@ -152,7 +171,10 @@ export type ClaudeApiModel =
  * Ordered by: latest versioned → aliases → legacy models
  */
 export const VALID_CLAUDE_API_MODELS: readonly ClaudeApiModel[] = [
-  // Claude 4.5 models (latest)
+  // Claude 4.6 models (latest)
+  "claude-opus-4-6",
+  "claude-sonnet-4-6",
+  // Claude 4.5 models
   "claude-sonnet-4-5-20250929",
   "claude-haiku-4-5-20251001",
   "claude-opus-4-5-20251101",

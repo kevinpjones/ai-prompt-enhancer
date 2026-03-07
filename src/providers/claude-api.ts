@@ -16,7 +16,7 @@ const DEFAULT_MAX_TOKENS = 4096;
 /**
  * Default model if not specified
  */
-const DEFAULT_MODEL = "claude-sonnet-4-5";
+const DEFAULT_MODEL = "claude-sonnet-4-6";
 
 /**
  * Provider implementation using the Anthropic API

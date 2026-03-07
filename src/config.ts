@@ -37,10 +37,10 @@ Original prompt to enhance:
 --------------------------------
 `;
 
-const DEFAULT_AUGGIE_MODEL = "sonnet4.5";
+const DEFAULT_AUGGIE_MODEL = "sonnet4.6";
 const DEFAULT_AUGGIE_PATH = "auggie";
 const DEFAULT_CLAUDE_PATH = "claude";
-const DEFAULT_CLAUDE_API_MODEL = "claude-sonnet-4-5";
+const DEFAULT_CLAUDE_API_MODEL = "claude-sonnet-4-6";
 const DEFAULT_PROVIDER: ProviderType = "auggie";
 
 const CONFIG_FILE_PATH = join(homedir(), ".prompt-enhancer.json");

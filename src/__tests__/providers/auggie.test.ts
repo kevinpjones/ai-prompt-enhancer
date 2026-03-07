@@ -32,7 +32,7 @@ import { createAuggieProvider } from "../../providers/auggie.js";
 describe("providers/auggie.ts", () => {
   const defaultConfig: AuggieProviderConfig = {
     provider: "auggie",
-    model: "sonnet4.5",
+    model: "sonnet4.6",
     wrapperPrompt: "Enhance: {input}",
     auggiePath: "/path/to/auggie",
     rules: ["/rule.md"],
@@ -84,7 +84,7 @@ describe("providers/auggie.ts", () => {
       await provider.enhance(defaultContext);
 
       expect(mocks.createFn).toHaveBeenCalledWith({
-        model: "sonnet4.5",
+        model: "sonnet4.6",
         workspaceRoot: "/workspace",
         allowIndexing: true,
         auggiePath: "/path/to/auggie",

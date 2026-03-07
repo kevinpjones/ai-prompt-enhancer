@@ -45,13 +45,19 @@ describe("types.ts", () => {
   describe("VALID_AUGGIE_MODELS", () => {
     it("should contain all expected Auggie model types", () => {
       expect(VALID_AUGGIE_MODELS).toContain("haiku4.5");
-      expect(VALID_AUGGIE_MODELS).toContain("sonnet4.5");
+      expect(VALID_AUGGIE_MODELS).toContain("opus4.5");
+      expect(VALID_AUGGIE_MODELS).toContain("opus4.6");
       expect(VALID_AUGGIE_MODELS).toContain("sonnet4");
+      expect(VALID_AUGGIE_MODELS).toContain("sonnet4.5");
+      expect(VALID_AUGGIE_MODELS).toContain("sonnet4.6");
       expect(VALID_AUGGIE_MODELS).toContain("gpt5");
+      expect(VALID_AUGGIE_MODELS).toContain("gpt5.1");
+      expect(VALID_AUGGIE_MODELS).toContain("gpt5.2");
+      expect(VALID_AUGGIE_MODELS).toContain("gpt5.4");
     });
 
-    it("should have exactly 4 models", () => {
-      expect(VALID_AUGGIE_MODELS).toHaveLength(4);
+    it("should have exactly 10 models", () => {
+      expect(VALID_AUGGIE_MODELS).toHaveLength(10);
     });
 
     it("should be a readonly array (typed as const)", () => {
@@ -66,7 +72,12 @@ describe("types.ts", () => {
   });
 
   describe("VALID_CLAUDE_API_MODELS", () => {
-    it("should contain Claude 4.5 models (latest)", () => {
+    it("should contain Claude 4.6 models (latest)", () => {
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-opus-4-6");
+      expect(VALID_CLAUDE_API_MODELS).toContain("claude-sonnet-4-6");
+    });
+
+    it("should contain Claude 4.5 models", () => {
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-sonnet-4-5-20250929");
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-haiku-4-5-20251001");
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-opus-4-5-20251101");
@@ -89,8 +100,8 @@ describe("types.ts", () => {
       expect(VALID_CLAUDE_API_MODELS).toContain("claude-3-haiku-20240307");
     });
 
-    it("should have exactly 11 models (3 versioned + 3 aliases + 5 legacy)", () => {
-      expect(VALID_CLAUDE_API_MODELS).toHaveLength(11);
+    it("should have exactly 13 models (2 latest + 3 versioned + 3 aliases + 5 legacy)", () => {
+      expect(VALID_CLAUDE_API_MODELS).toHaveLength(13);
     });
 
     it("should be a readonly array (typed as const)", () => {
@@ -102,7 +113,7 @@ describe("types.ts", () => {
     it("should allow valid AuggieProviderConfig", () => {
       const config: AuggieProviderConfig = {
         provider: "auggie",
-        model: "sonnet4.5",
+        model: "sonnet4.6",
         wrapperPrompt: "test {input}",
         auggiePath: "/path/to/auggie",
         rules: ["/path/to/rule.md"],
@@ -118,7 +129,7 @@ describe("types.ts", () => {
         provider: "claude-cli",
         wrapperPrompt: "test {input}",
         claudePath: "/path/to/claude",
-        model: "claude-3-opus",
+        model: "claude-sonnet-4-6",
         cliArgs: ["--arg"],
         showStderr: true,
       };
@@ -129,7 +140,7 @@ describe("types.ts", () => {
       const config: ClaudeApiProviderConfig = {
         provider: "claude-api",
         wrapperPrompt: "test {input}",
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         apiKey: "test-key",
         maxTokens: 8192,
         showStderr: false,
@@ -151,7 +162,7 @@ describe("types.ts", () => {
 
     it("should allow valid LegacyConfig without provider field", () => {
       const config: LegacyConfig = {
-        model: "sonnet4.5",
+        model: "sonnet4.6",
         wrapperPrompt: "test {input}",
         auggiePath: "/path/to/auggie",
         rules: [],
@@ -225,7 +236,7 @@ describe("types.ts", () => {
     it("should discriminate based on provider field", () => {
       const auggieConfig: Config = {
         provider: "auggie",
-        model: "sonnet4.5",
+        model: "sonnet4.6",
         wrapperPrompt: "{input}",
       };
 
@@ -236,7 +247,7 @@ describe("types.ts", () => {
 
       const claudeApiConfig: Config = {
         provider: "claude-api",
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-4-6",
         wrapperPrompt: "{input}",
       };
 

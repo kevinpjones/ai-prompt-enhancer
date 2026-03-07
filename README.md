@@ -67,7 +67,7 @@ Add the `provider` field to your config to choose your provider:
 ```json
 {
   "provider": "auggie",
-  "model": "sonnet4.5",
+  "model": "sonnet4.6",
   "auggiePath": "auggie",
   "rules": ["/path/to/rules.md"],
   "cliArgs": ["--mcp-config", "/path/to/mcp.json"]
@@ -91,7 +91,7 @@ No API key required! Uses your existing Claude Code authentication.
 ```json
 {
   "provider": "claude-api",
-  "model": "claude-sonnet-4-5",
+  "model": "claude-sonnet-4-6",
   "maxTokens": 4096
 }
 ```
@@ -108,7 +108,7 @@ Existing configurations without a `provider` field continue to work and default 
 
 ```json
 {
-  "model": "sonnet4.5",
+  "model": "sonnet4.6",
   "wrapperPrompt": "Your custom prompt with {input} placeholder"
 }
 ```
@@ -127,7 +127,7 @@ Existing configurations without a `provider` field continue to work and default 
 
 | Option       | Type     | Default       | Description                                          |
 | ------------ | -------- | ------------- | ---------------------------------------------------- |
-| `model`      | string   | `"sonnet4.5"` | AI model: `haiku4.5`, `sonnet4.5`, `sonnet4`, `gpt5` |
+| `model`      | string   | `"sonnet4.6"` | AI model: `haiku4.5`, `opus4.5`, `opus4.6`, `sonnet4.5`, `sonnet4.6`, `gpt5`, `gpt5.1`, `gpt5.2`, `gpt5.4` |
 | `auggiePath` | string   | `"auggie"`    | Path to the Auggie executable                        |
 | `rules`      | string[] | `[]`          | Paths to rule files to pass to Auggie                |
 | `cliArgs`    | string[] | `[]`          | Additional CLI arguments for Auggie                  |
@@ -144,7 +144,7 @@ Existing configurations without a `provider` field continue to work and default 
 
 | Option      | Type   | Default              | Description                                  |
 | ----------- | ------ | -------------------- | -------------------------------------------- |
-| `model`     | string | `"claude-sonnet-4-5"` | Claude model to use (auto-updates to latest) |
+| `model`     | string | `"claude-sonnet-4-6"` | Claude model to use (auto-updates to latest) |
 | `apiKey`    | string | _(env var)_                  | API key (or use `ANTHROPIC_API_KEY` env var) |
 | `maxTokens` | number | `4096`                       | Maximum tokens for response                  |
 
@@ -322,7 +322,7 @@ The `loadConfig()` function currently has minimal error handling. Improve it to:
    ```json
    {
      "provider": "auggie",
-     "model": "sonnet4.5"
+     "model": "sonnet4.6"
    }
    ```
 
@@ -399,7 +399,7 @@ export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/ai-prompt-enhancer/bin/claude-wrapp
    ```json
    {
      "provider": "claude-api",
-     "model": "claude-sonnet-4-5-20250929"
+     "model": "claude-sonnet-4-6"
    }
    ```
 
@@ -407,25 +407,33 @@ export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/ai-prompt-enhancer/bin/claude-wrapp
 
 ### Auggie Models
 
-| Model       | Speed   | Quality   | Best For             |
-| ----------- | ------- | --------- | -------------------- |
-| `haiku4.5`  | Fastest | Good      | Quick enhancements   |
-| `sonnet4.5` | Fast    | Excellent | Default choice       |
-| `sonnet4`   | Medium  | Excellent | Complex prompts      |
-| `gpt5`      | Medium  | Excellent | Alternative provider |
+| Model       | Speed   | Quality   | Best For                |
+| ----------- | ------- | --------- | ----------------------- |
+| `sonnet4.6` | Fast    | Excellent | Default choice (latest) |
+| `sonnet4.5` | Fast    | Excellent | Previous default        |
+| `opus4.6`   | Slower  | Best      | Most complex tasks      |
+| `opus4.5`   | Slower  | Best      | Complex tasks           |
+| `haiku4.5`  | Fastest | Good      | Quick enhancements      |
+| `gpt5.4`    | Medium  | Excellent | Free (limited time)     |
+| `gpt5.2`    | Medium  | Excellent | Strong reasoning        |
+| `gpt5.1`    | Medium  | Excellent | Strong reasoning        |
+| `sonnet4`   | Medium  | Good      | Legacy                  |
+| `gpt5`      | Medium  | Good      | Legacy                  |
 
 ### Claude API Models
 
-| Model                        | Description                                    |
-| ---------------------------- | ---------------------------------------------- |
-| `claude-sonnet-4-5-20250929` | Claude Sonnet 4.5 - smart model                |
-| `claude-haiku-4-5-20251001`  | Claude Haiku 4.5 - fastest                     |
-| `claude-opus-4-5-20251101`   | Claude Opus 4.5 - most capable                 |
-| `claude-sonnet-4-5`          | Alias (default) - auto-updates to latest Sonnet |
-| `claude-haiku-4-5`           | Alias - auto-updates to latest Haiku 4.5      |
-| `claude-opus-4-5`            | Alias - auto-updates to latest Opus 4.5       |
-| `claude-3-5-sonnet-20241022` | Claude 3.5 Sonnet (legacy)                    |
-| `claude-3-5-haiku-20241022`  | Claude 3.5 Haiku (legacy)                     |
+| Model                        | Description                                      |
+| ---------------------------- | ------------------------------------------------ |
+| `claude-sonnet-4-6`          | Claude Sonnet 4.6 (default) - latest Sonnet      |
+| `claude-opus-4-6`            | Claude Opus 4.6 - latest, most capable           |
+| `claude-sonnet-4-5-20250929` | Claude Sonnet 4.5 - versioned                    |
+| `claude-haiku-4-5-20251001`  | Claude Haiku 4.5 - fastest                       |
+| `claude-opus-4-5-20251101`   | Claude Opus 4.5 - versioned                      |
+| `claude-sonnet-4-5`          | Alias - auto-updates to latest Sonnet 4.5        |
+| `claude-haiku-4-5`           | Alias - auto-updates to latest Haiku 4.5         |
+| `claude-opus-4-5`            | Alias - auto-updates to latest Opus 4.5          |
+| `claude-3-5-sonnet-20241022` | Claude 3.5 Sonnet (legacy)                       |
+| `claude-3-5-haiku-20241022`  | Claude 3.5 Haiku (legacy)                        |
 
 ## Project Structure
 
