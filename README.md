@@ -4,7 +4,7 @@ A command-line tool that enhances AI prompts using multiple providers. Designed 
 
 ## Features
 
-- **Multi-Provider Support**: Choose from Auggie, Claude Code CLI, or Claude API
+- **Multi-Provider Support**: Choose from Auggie, Claude Code CLI, Claude API, or Google Gemini CLI
 - **Context-Aware Enhancement**: Analyzes your workspace to generate detailed, actionable prompts
 - **Editor Integration**: Works with Vim, Neovim, Emacs, and Spacemacs
 - **Configurable**: Customize the provider, model, wrapper prompt, and other settings
@@ -13,13 +13,14 @@ A command-line tool that enhances AI prompts using multiple providers. Designed 
 
 ## Providers
 
-The enhancer supports three providers:
+The enhancer supports four providers:
 
-| Provider            | ID           | Authentication                | Best For                                            |
-| ------------------- | ------------ | ----------------------------- | --------------------------------------------------- |
-| **Auggie**          | `auggie`     | Augment Code account          | Full workspace indexing, IDE-like context           |
-| **Claude Code CLI** | `claude-cli` | Claude Code auth (no API key) | Quick setup, uses existing Claude Code installation |
-| **Claude API**      | `claude-api` | Anthropic API key             | Direct API access, full control                     |
+| Provider             | ID           | Authentication                | Best For                                            |
+| -------------------- | ------------ | ----------------------------- | --------------------------------------------------- |
+| **Auggie**           | `auggie`     | Augment Code account          | Full workspace indexing, IDE-like context           |
+| **Claude Code CLI**  | `claude-cli` | Claude Code auth (no API key) | Quick setup, uses existing Claude Code installation |
+| **Claude API**       | `claude-api` | Anthropic API key             | Direct API access, full control                     |
+| **Google Gemini CLI**| `gemini-cli` | Gemini CLI auth (no API key)  | Uses an existing Gemini CLI installation            |
 
 ## Installation
 
@@ -31,6 +32,7 @@ The enhancer supports three providers:
   - [Augment Code](https://www.augmentcode.com/) account (for Auggie provider)
   - [Claude Code](https://claude.ai/code) installed (for Claude CLI provider)
   - Anthropic API key (for Claude API provider)
+  - [Gemini CLI](https://github.com/google-gemini/gemini-cli) installed (for Gemini CLI provider)
 
 ### Setup
 
@@ -86,6 +88,18 @@ Add the `provider` field to your config to choose your provider:
 
 No API key required! Uses your existing Claude Code authentication.
 
+#### Google Gemini CLI Provider
+
+```json
+{
+  "provider": "gemini-cli",
+  "geminiPath": "gemini",
+  "wrapperPrompt": "Your custom prompt with {input} placeholder"
+}
+```
+
+No API key required! Uses your existing Gemini CLI authentication.
+
 #### Claude API Provider
 
 ```json
@@ -119,7 +133,7 @@ Existing configurations without a `provider` field continue to work and default 
 
 | Option          | Type    | Default       | Description                                                        |
 | --------------- | ------- | ------------- | ------------------------------------------------------------------ |
-| `provider`      | string  | `"auggie"`    | Provider to use: `auggie`, `claude-cli`, `claude-api`              |
+| `provider`      | string  | `"auggie"`    | Provider to use: `auggie`, `claude-cli`, `claude-api`, `gemini-cli` |
 | `wrapperPrompt` | string  | _(see below)_ | Template for enhancing prompts. Must contain `{input}` placeholder |
 | `showStderr`    | boolean | `false`       | Show stderr output instead of filtering SDK/MCP warnings           |
 
@@ -139,6 +153,16 @@ Existing configurations without a `provider` field continue to work and default 
 | `claudePath` | string   | `"claude"`  | Path to the Claude CLI executable   |
 | `model`      | string   | _(default)_ | Optional model override             |
 | `cliArgs`    | string[] | `[]`        | Additional CLI arguments for Claude |
+
+#### Gemini CLI Provider Options
+
+| Option       | Type     | Default     | Description                         |
+| ------------ | -------- | ----------- | ----------------------------------- |
+| `geminiPath` | string   | `"gemini"`  | Path to the Gemini CLI executable   |
+| `model`      | string   | _(default)_ | Optional model override (`--model`) |
+| `cliArgs`    | string[] | `[]`        | Additional CLI arguments for Gemini |
+
+> **Note:** Gemini CLI options are set in the config file. Unlike the other providers, there are no dedicated `PROMPT_ENHANCER_*` environment overrides for the Gemini executable path or model.
 
 #### Claude API Provider Options
 
@@ -435,6 +459,26 @@ Or via environment variable:
 export PROMPT_ENHANCER_CLAUDE_PATH="/path/to/ai-prompt-enhancer/bin/claude-wrapper"
 ```
 
+### Gemini CLI Provider Setup
+
+1. Install the [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+2. Authenticate with the Gemini CLI
+3. Configure:
+   ```json
+   {
+     "provider": "gemini-cli"
+   }
+   ```
+
+That's it! No API key needed. The prompt is passed to the `gemini` CLI as a positional argument and run non-interactively. If `gemini` is not on your `PATH`, set the full path with `geminiPath`:
+
+```json
+{
+  "provider": "gemini-cli",
+  "geminiPath": "/full/path/to/gemini"
+}
+```
+
 ### Claude API Provider Setup
 
 1. Get an API key from [Anthropic Console](https://console.anthropic.com/)
@@ -531,13 +575,13 @@ echo "test prompt" | node dist/enhance-prompt.js $(pwd)
 
 ## Troubleshooting
 
-### "spawn auggie ENOENT" or "spawn claude ENOENT"
+### "spawn auggie ENOENT", "spawn claude ENOENT", or "spawn gemini ENOENT"
 
 The CLI executable is not found. Either:
 
 - Install the tool globally
 - Use a wrapper script
-- Set the appropriate path in config (`auggiePath` or `claudePath`)
+- Set the appropriate path in config (`auggiePath`, `claudePath`, or `geminiPath`)
 
 ### "Claude API provider requires an API key"
 
