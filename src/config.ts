@@ -6,6 +6,7 @@ import type {
   AuggieProviderConfig,
   ClaudeCliProviderConfig,
   ClaudeApiProviderConfig,
+  GeminiCliProviderConfig,
   LegacyConfig,
   ProviderType,
   ValidationResult,
@@ -40,6 +41,7 @@ Original prompt to enhance:
 const DEFAULT_AUGGIE_MODEL = "sonnet4.6";
 const DEFAULT_AUGGIE_PATH = "auggie";
 const DEFAULT_CLAUDE_PATH = "claude";
+const DEFAULT_GEMINI_PATH = "gemini";
 const DEFAULT_CLAUDE_API_MODEL = "claude-sonnet-4-6";
 const DEFAULT_PROVIDER: ProviderType = "auggie";
 
@@ -306,6 +308,8 @@ function getKnownFieldsForProvider(provider: ProviderType): Set<string> {
       return new Set([...commonFields, "model", "auggiePath", "rules", "cliArgs", "tools"]);
     case "claude-cli":
       return new Set([...commonFields, "model", "claudePath", "cliArgs"]);
+    case "gemini-cli":
+      return new Set([...commonFields, "model", "geminiPath", "cliArgs"]);
     case "claude-api":
       return new Set([...commonFields, "model", "apiKey", "maxTokens"]);
     default:
@@ -367,6 +371,15 @@ export function validateConfig(config: unknown): ValidationResult {
 
     case "claude-cli": {
       const pathError = validatePath(configObj.claudePath, "claudePath");
+      if (pathError) errors.push(pathError);
+
+      const cliArgsError = validateCliArgs(configObj.cliArgs);
+      if (cliArgsError) errors.push(cliArgsError);
+      break;
+    }
+
+    case "gemini-cli": {
+      const pathError = validatePath(configObj.geminiPath, "geminiPath");
       if (pathError) errors.push(pathError);
 
       const cliArgsError = validateCliArgs(configObj.cliArgs);
@@ -537,6 +550,19 @@ function createDefaultClaudeCliConfig(): ClaudeCliProviderConfig {
 }
 
 /**
+ * Create default Gemini CLI provider config
+ */
+function createDefaultGeminiCliConfig(): GeminiCliProviderConfig {
+  return {
+    provider: "gemini-cli",
+    wrapperPrompt: DEFAULT_WRAPPER_PROMPT,
+    geminiPath: DEFAULT_GEMINI_PATH,
+    cliArgs: [],
+    showStderr: false,
+  };
+}
+
+/**
  * Create default Claude API provider config
  */
 function createDefaultClaudeApiConfig(): ClaudeApiProviderConfig {
@@ -558,6 +584,8 @@ function createDefaultConfig(provider: ProviderType): Config {
       return createDefaultAuggieConfig();
     case "claude-cli":
       return createDefaultClaudeCliConfig();
+    case "gemini-cli":
+      return createDefaultGeminiCliConfig();
     case "claude-api":
       return createDefaultClaudeApiConfig();
     default:
@@ -632,6 +660,33 @@ function mergeClaudeCliConfig(
 }
 
 /**
+ * Merge parsed Gemini CLI config with defaults
+ */
+function mergeGeminiCliConfig(
+  defaults: GeminiCliProviderConfig,
+  parsed: Record<string, unknown>,
+  invalidFields: Set<string>
+): GeminiCliProviderConfig {
+  return {
+    provider: "gemini-cli",
+    wrapperPrompt:
+      !invalidFields.has("wrapperPrompt") && parsed.wrapperPrompt !== undefined
+        ? String(parsed.wrapperPrompt)
+        : defaults.wrapperPrompt,
+    geminiPath:
+      !invalidFields.has("geminiPath") && parsed.geminiPath !== undefined
+        ? String(parsed.geminiPath)
+        : defaults.geminiPath,
+    model: parsed.model !== undefined ? String(parsed.model) : defaults.model,
+    cliArgs:
+      !invalidFields.has("cliArgs") && Array.isArray(parsed.cliArgs)
+        ? (parsed.cliArgs as string[])
+        : defaults.cliArgs,
+    showStderr: typeof parsed.showStderr === "boolean" ? parsed.showStderr : defaults.showStderr,
+  };
+}
+
+/**
  * Merge parsed Claude API config with defaults
  */
 function mergeClaudeApiConfig(
@@ -673,6 +728,8 @@ function mergeConfigWithDefaults(
       return mergeAuggieConfig(createDefaultAuggieConfig(), parsed, invalidFields);
     case "claude-cli":
       return mergeClaudeCliConfig(createDefaultClaudeCliConfig(), parsed, invalidFields);
+    case "gemini-cli":
+      return mergeGeminiCliConfig(createDefaultGeminiCliConfig(), parsed, invalidFields);
     case "claude-api":
       return mergeClaudeApiConfig(createDefaultClaudeApiConfig(), parsed, invalidFields);
     default:
@@ -764,6 +821,25 @@ function applyEnvironmentOverrides(config: Config): Config {
       break;
     }
 
+    case "gemini-cli": {
+      const geminiCliConfig = config as GeminiCliProviderConfig;
+
+      if (process.env.PROMPT_ENHANCER_GEMINI_PATH) {
+        geminiCliConfig.geminiPath = process.env.PROMPT_ENHANCER_GEMINI_PATH;
+      }
+
+      if (process.env.PROMPT_ENHANCER_MODEL) {
+        geminiCliConfig.model = process.env.PROMPT_ENHANCER_MODEL;
+      }
+
+      if (process.env.PROMPT_ENHANCER_CLI_ARGS) {
+        geminiCliConfig.cliArgs = process.env.PROMPT_ENHANCER_CLI_ARGS.split(",")
+          .map((a) => a.trim())
+          .filter((a) => a !== "");
+      }
+      break;
+    }
+
     case "claude-api": {
       const claudeApiConfig = config as ClaudeApiProviderConfig;
 
@@ -799,7 +875,7 @@ function applyEnvironmentOverrides(config: Config): Config {
  * 2. Config file (~/.prompt-enhancer.json)
  * 3. Defaults (lowest priority)
  *
- * Supports multiple providers: auggie, claude-cli, claude-api
+ * Supports multiple providers: auggie, claude-cli, gemini-cli, claude-api
  * Maintains backward compatibility with legacy config format (defaults to auggie)
  */
 export function loadConfig(): Config {

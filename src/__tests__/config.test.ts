@@ -39,6 +39,7 @@ describe("config.ts", () => {
     delete process.env.PROMPT_ENHANCER_PROMPT;
     delete process.env.PROMPT_ENHANCER_AUGGIE_PATH;
     delete process.env.PROMPT_ENHANCER_CLAUDE_PATH;
+    delete process.env.PROMPT_ENHANCER_GEMINI_PATH;
     delete process.env.PROMPT_ENHANCER_RULES;
     delete process.env.PROMPT_ENHANCER_CLI_ARGS;
     delete process.env.PROMPT_ENHANCER_MAX_TOKENS;
@@ -128,6 +129,25 @@ describe("config.ts", () => {
           expect(config.wrapperPrompt).toBe("Claude prompt: {input}");
           expect(config.claudePath).toBe("/path/to/claude");
           expect(config.model).toBe("custom-model");
+        }
+      });
+
+      it("should load Gemini CLI config from file", () => {
+        const fileConfig = {
+          provider: "gemini-cli",
+          wrapperPrompt: "Gemini prompt: {input}",
+          geminiPath: "/path/to/gemini",
+          model: "gemini-custom",
+        };
+        mocks.readFileSync.mockReturnValue(JSON.stringify(fileConfig));
+
+        const config = loadConfig();
+
+        expect(config.provider).toBe("gemini-cli");
+        if (config.provider === "gemini-cli") {
+          expect(config.wrapperPrompt).toBe("Gemini prompt: {input}");
+          expect(config.geminiPath).toBe("/path/to/gemini");
+          expect(config.model).toBe("gemini-custom");
         }
       });
 
@@ -274,6 +294,17 @@ describe("config.ts", () => {
 
         if (config.provider === "claude-cli") {
           expect(config.claudePath).toBe("/env/claude");
+        }
+      });
+
+      it("should override geminiPath via PROMPT_ENHANCER_GEMINI_PATH", () => {
+        process.env.PROMPT_ENHANCER_PROVIDER = "gemini-cli";
+        process.env.PROMPT_ENHANCER_GEMINI_PATH = "/env/gemini";
+
+        const config = loadConfig();
+
+        if (config.provider === "gemini-cli") {
+          expect(config.geminiPath).toBe("/env/gemini");
         }
       });
 
@@ -487,6 +518,25 @@ describe("config.ts", () => {
       const result = validateConfig(config);
       expect(result.valid).toBe(false);
       expect(result.errors.some((e) => e.field === "claudePath")).toBe(true);
+    });
+
+    it("should return valid for valid Gemini CLI config", () => {
+      const config = {
+        provider: "gemini-cli",
+        wrapperPrompt: "Test {input}",
+      };
+      const result = validateConfig(config);
+      expect(result.valid).toBe(true);
+    });
+
+    it("should return error for empty geminiPath", () => {
+      const config = {
+        provider: "gemini-cli",
+        geminiPath: "   ",
+      };
+      const result = validateConfig(config);
+      expect(result.valid).toBe(false);
+      expect(result.errors.some((e) => e.field === "geminiPath")).toBe(true);
     });
 
     it("should return valid for valid Claude API config", () => {

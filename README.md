@@ -162,7 +162,7 @@ Existing configurations without a `provider` field continue to work and default 
 | `model`      | string   | _(default)_ | Optional model override (`--model`) |
 | `cliArgs`    | string[] | `[]`        | Additional CLI arguments for Gemini |
 
-> **Note:** Gemini CLI options are set in the config file. Unlike the other providers, there are no dedicated `PROMPT_ENHANCER_*` environment overrides for the Gemini executable path or model.
+Environment overrides: `PROMPT_ENHANCER_GEMINI_PATH` (executable path), `PROMPT_ENHANCER_MODEL` (model), and `PROMPT_ENHANCER_CLI_ARGS` (comma-separated args).
 
 #### Claude API Provider Options
 
@@ -183,6 +183,7 @@ Environment variables take precedence over the config file:
 | `PROMPT_ENHANCER_MODEL`       | Override model (provider-specific)                   |
 | `PROMPT_ENHANCER_AUGGIE_PATH` | Path to Auggie executable                            |
 | `PROMPT_ENHANCER_CLAUDE_PATH` | Path to Claude CLI executable                        |
+| `PROMPT_ENHANCER_GEMINI_PATH` | Path to Gemini CLI executable                        |
 | `PROMPT_ENHANCER_RULES`       | Comma-separated rule file paths                      |
 | `PROMPT_ENHANCER_CLI_ARGS`    | Comma-separated CLI arguments                        |
 | `PROMPT_ENHANCER_MAX_TOKENS`  | Max tokens for Claude API                            |
