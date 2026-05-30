@@ -72,6 +72,11 @@ function! EnhancePromptDebugToggle()
 endfunction
 
 " Commands
+" :EnhancePrompt enhances the current visual selection (accepts a range so it
+" can be invoked from a visual-mode mapping, e.g. :EnhancePrompt or
+" :'<,'>EnhancePrompt). The range is accepted but ignored; the function reads
+" the '< and '> visual marks directly.
+command! -range EnhancePrompt call EnhancePrompt()
 command! EnhancePromptDebugToggle call EnhancePromptDebugToggle()
 
 " Map to a convenient key binding (optional)

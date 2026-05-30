@@ -207,7 +207,7 @@ echo "fix the login bug" | node dist/enhance-prompt.js /path/to/project
 2. **Use in Vim:**
    - Write a rough prompt in your file
    - Select the text visually (`v` or `V`)
-   - Press `<Leader>e` or run `:call EnhancePrompt()`
+   - Press `<Leader>e`, run `:EnhancePrompt`, or run `:call EnhancePrompt()`
    - The selected text is replaced with the enhanced prompt
 
 #### Configuration Options
@@ -250,6 +250,57 @@ If enhancement fails, use debug mode to see error output:
 ```
 
 With debug mode enabled, stderr is included in the output instead of being suppressed, making it easier to diagnose issues like missing commands or configuration errors
+
+#### NeoVim (`init.lua`)
+
+The integration is a plain Vimscript file, so Lua-based NeoVim configs source it the
+same way `init.vim` does. Set the same `g:` variables via `vim.g`, source the file,
+then bind your preferred key. The `:EnhancePrompt` command (added for this purpose)
+makes the keymap clean.
+
+> **Order matters:** set the `vim.g.*` variables **before** sourcing the script, just
+> like the Vimscript setup.
+
+**Using `npm link` (recommended for local development):**
+
+```lua
+-- Bypass the npx registry lookup by pointing at the linked binary
+vim.g.enhance_prompt_command = vim.fn.expand("~/.nodenv/versions/22.18.0/bin/enhance-prompt")
+vim.cmd("source /path/to/ai-prompt-enhancer/enhance-prompt.vim")
+
+-- Enhance the visual selection. The leading ':' leaves visual mode so the
+-- '< and '> marks are current before :EnhancePrompt reads them.
+vim.keymap.set("x", "<Leader>e", ":EnhancePrompt<CR>", { silent = true, desc = "Enhance prompt" })
+```
+
+**Using `node` directly (works without `npm link`):**
+
+```lua
+vim.g.enhance_prompt_command = "node /path/to/ai-prompt-enhancer/dist/enhance-prompt.js"
+-- Optional: make nodenv shims available so NODENV_VERSION resolves
+-- vim.g.enhance_prompt_env = "NODENV_VERSION=22.18.0 PATH=~/.nodenv/shims:$PATH"
+vim.cmd("source /path/to/ai-prompt-enhancer/enhance-prompt.vim")
+
+vim.keymap.set("x", "<Leader>e", ":EnhancePrompt<CR>", { silent = true, desc = "Enhance prompt" })
+```
+
+**Configuring and debugging from Lua:**
+
+```lua
+vim.g.enhance_prompt_command = "node /path/to/ai-prompt-enhancer/dist/enhance-prompt.js"
+vim.g.enhance_prompt_env = "NODENV_VERSION=22.18.0"  -- prepended to the command
+vim.g.enhance_prompt_debug = 1                        -- show stderr (or use :EnhancePromptDebugToggle)
+vim.cmd("source /path/to/ai-prompt-enhancer/enhance-prompt.vim")
+```
+
+**Caveats for NeoVim users:**
+
+- Bind to visual mode (`"x"` or `"v"`), since enhancement operates on the visual selection.
+- Prefer the `":EnhancePrompt<CR>"` form over a `"<Cmd>EnhancePrompt<CR>"` mapping: `<Cmd>`
+  does not leave visual mode, so the `'<`/`'>` marks would be stale. The leading `:` updates them.
+- Sourcing the script also defines the default `<Leader>e` visual-mode mapping. If you set your
+  own keymap, you can simply ignore it or remap `<Leader>e` afterward.
+- `:call EnhancePrompt()` still works if you prefer not to use the command.
 
 ### Spacemacs Integration
 
